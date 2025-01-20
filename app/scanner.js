@@ -50,6 +50,13 @@ const TokenType = {
     EOF: 'EOF'
   };
   
+
+  // The reason we use a Map here is to look up whether a
+  // given string is a keyword in constant time. If we used
+  // an array or an object, the lookup time would be linear
+  // because we would have to iterate over the elements of
+  // the array or object.
+  
   const keywords = new Map([
     ["and", TokenType.AND],
     ["class", TokenType.CLASS],
@@ -239,3 +246,5 @@ class Token {
       }
 
     }
+
+    export { Scanner } 

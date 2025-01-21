@@ -73,6 +73,9 @@ if (fileContent.length !== 0) {
   console.log("EOF  null");
 }
 
+if (hasInvalidToken) {
+  process.exit(65);
+}
 
 // function run(source) {
 //   const scanner = new Scanner(source); 

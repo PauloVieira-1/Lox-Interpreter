@@ -33,13 +33,6 @@ for (let i = 0; i < lines.length; i++) {
 
 
 
-
-
-
-
-
-
-
 if (fileContent.length !== 0) {
   throw new Error("Scanner not implemented");
 } else {
@@ -60,24 +53,24 @@ run(fileContent);
 
 // Error Handling 
 
-class Lox {
+// class Lox {
 
-  static hadError = false;
-  static error(line, message) { // create seoerte class later 
-    report(line, "", message);
-  }
+//   static hadError = false;
+//   static error(line, message) { // create seoerte class later 
+//     report(line, "", message);
+//   }
   
-  static report(line, where, message) {
-    console.error(`[line ${line}] Error${where}: ${message}`);
-    hadError = true;
-  }
+//   static report(line, where, message) {
+//     console.error(`[line ${line}] Error${where}: ${message}`);
+//     hadError = true;
+//   }
 
-  if (hadError) {
-    process.exit(65);
-    hadError = false; /// Good practice to seperate code that generates errors and code that report them, hence why not in scanner 
+//   if (hadError) {
+//     process.exit(65);
+//     hadError = false; /// Good practice to seperate code that generates errors and code that report them, hence why not in scanner 
 
-}  
+// }  
 
-}
+// }
 
-export { Lox }
+// export { Lox }

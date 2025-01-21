@@ -36,6 +36,27 @@ if (fileContent.length !== 0) {
         case "}":
           console.log("RIGHT_BRACE } null")
           break;
+        case ",":
+          console.log("COMMA , null")
+          break;
+        case ".":
+          console.log("DOT . null")
+          break;
+        case "-":
+          console.log("MINUS - null")
+          break;
+        case "+":
+          console.log("PLUS + null")
+          break;
+        case ";":
+          console.log("SEMICOLON ; null")
+          break;
+        case "*":
+          console.log("STAR * null")
+          break;
+        case "/":
+          console.log("SLASH / null")
+          break;
       }
     }
   }

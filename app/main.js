@@ -1,5 +1,5 @@
 import fs from "fs";
-import { Scanner } from "./scanner.js";
+// import { Scanner } from "./scanner.js";
 const args = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 
 if (args.length < 2) {

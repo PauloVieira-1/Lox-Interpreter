@@ -29,7 +29,7 @@ if (fileContent.length !== 0) {
     for (let s = 0; s < lines[i].length; s++) {
 
       if (invalidTokens.includes(lines[i][s])) {
-        console.log(`[line ${i+1}] Error: Unexpected character: ${lines[i][s]}`);
+        console.log(`Line ${i+1}] Error: Unexpected character: ${lines[i][s]}`);
         hasInvalidToken = true;
         continue;
       }

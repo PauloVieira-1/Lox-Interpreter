@@ -62,7 +62,7 @@ if (fileContent.length !== 0) {
           console.log("SLASH / null")
           break;
         case invalidTokens.includes(lines[i][s]):
-          console.error(`[line ${s + 1}] Error: Unexpected character: ${lines[i][s]}`);
+          console.error(`[line ${s}] Error: Unexpected character: ${lines[i][s]}`);
           hasInvalidToken = false;
           break;
       }

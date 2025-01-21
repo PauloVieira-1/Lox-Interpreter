@@ -14,7 +14,7 @@ if (command !== "tokenize") {
   process.exit(1);
 }
 
-console.error("Logs from your program will appear here!");
+// console.error("Logs from your program will appear here!");
 
 const filename = args[1];
 const fileContent = fs.readFileSync(filename, "utf8");
@@ -29,7 +29,7 @@ if (fileContent.length !== 0) {
     for (let s = 0; s < lines[i].length; s++) {
 
       if (invalidTokens.includes(lines[i][s])) {
-        console.log(`[line 1] Error: Unexpected character: ${lines[i][s]}`);
+        console.log(`[line ${i+1}] Error: Unexpected character: ${lines[i][s]}`);
         hasInvalidToken = true;
         continue;
       }

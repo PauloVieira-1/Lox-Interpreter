@@ -57,6 +57,11 @@ if (fileContent.length !== 0) {
         case "/":
           console.log("SLASH / null")
           break;
+        case "$":
+          console.error(`[Line ${i}] Error: Unexpected character: $`)
+        case "#":
+          console.error(`[Line ${i}] Error: Unexpected character: #`)
+
       }
     }
   }

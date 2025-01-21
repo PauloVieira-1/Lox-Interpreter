@@ -39,16 +39,16 @@ if (fileContent.length !== 0) {
 }
 
 
-function run(source) {
-  const scanner = new Scanner(source); 
-  const tokens = scanner.scanTokens(); 
+// function run(source) {
+//   const scanner = new Scanner(source); 
+//   const tokens = scanner.scanTokens(); 
 
-  for (const token of tokens) {
-    console.log(token);
-  }
-}
+//   for (const token of tokens) {
+//     console.log(token);
+//   }
+// }
 
-run(fileContent);
+// run(fileContent);
 
 // Error Handling 
 

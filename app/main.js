@@ -19,6 +19,10 @@ console.error("Logs from your program will appear here!");
 const filename = args[1];
 const fileContent = fs.readFileSync(filename, "utf8");
 
+const invalidTokens = ["$", "#", "@", "%"];
+let hasInvalidToken = true 
+ 
+
 if (fileContent.length !== 0) {
   let lines = fileContent.split("\n");
   for (let i = 0; i < lines.length; i++) {
@@ -57,11 +61,10 @@ if (fileContent.length !== 0) {
         case "/":
           console.log("SLASH / null")
           break;
-        case "$":
-          console.error(`[Line ${i}] Error: Unexpected character: $`)
-        case "#":
-          console.error(`[Line ${i}] Error: Unexpected character: #`)
-
+        case invalidTokens.includes(lines[i][s]):
+          console.error(`[line ${s + 1}] Error: Unexpected character: ${lines[i][s]}`);
+          hasInvalidToken = false;
+          break;
       }
     }
   }

@@ -133,7 +133,6 @@ lines.forEach(line => {
             console.log(`STRING ${`${printable}`} ${printable}`);
           }
         } 
-        current_token += line.length - current_token
         break;
 
     }

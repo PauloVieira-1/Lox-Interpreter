@@ -127,16 +127,13 @@ lines.forEach(line => {
       break;
 
       case `"`:
-        let nextStringLiteral = line.indexOf('"', current_token+1);
-        if(nextStringLiteral == -1){
-          break;
-        }
-        else{
-          let stringIn = line.slice(current_token+1, nextStringLiteral);
-          console.log(`STRING "${stringIn}" ${stringIn}`);
-          current_token += nextStringLiteral;
-          continue;
-        }
+        for (let i = current_token + 1; i < line.length; i++) {
+          if (line[i] === `"`) {
+            let printable = line.substring(current_token + 1, i);
+            console.log(`STRING ${`${printable}`} ${printable}`);
+          }
+        } 
+        break;
 
     }
   }

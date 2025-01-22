@@ -128,7 +128,7 @@ lines.forEach(line => {
 
       case `"`:
         let start = current_token + 1
-        for (let i = start + 1; i < line.length; i++) {
+        for (let i = start; i < line.length; i++) {
           if (line[i] === `"`) {
             let printable = line.substring(start, i); 
             console.log(`STRING ${`"${printable}"`} ${printable}`);

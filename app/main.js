@@ -24,15 +24,20 @@ let hasInvalidToken = false
  
 
 if (fileContent.length !== 0) {
+  
   let lines = fileContent.split("\n");
+  
   for (let i = 0; i < lines.length; i++) {
-    for (let s = 0; s < lines[i].length; s++) {
 
-      if (invalidTokens.includes(lines[i][s])) {
-        console.log(`[line ${i+1}] Error: Unexpected character: ${lines[i][s]}`);
-        hasInvalidToken = true;
-        continue;
+    for (let j = 0; j < lines[i].length; j++) {
+      // console.log(lines[i][j])
+      if (invalidTokens.includes(lines[i][j])) {
+        console.log(`[line ${i + 1}] Error: Unexpected character: ${lines[i][j]}`);
+        hasInvalidToken = true
       }
+      }
+
+    for (let s = 0; s < lines[i].length; s++) {
 
       switch(lines[i][s]) {
         case "(":
@@ -70,10 +75,13 @@ if (fileContent.length !== 0) {
           break;
       }
     }
+  
   }
   console.log("EOF  null")
-} else {
+
+  } else {
   console.log("EOF  null");
+
 }
 
 if (hasInvalidToken) {

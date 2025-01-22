@@ -94,7 +94,7 @@ lines.forEach(line => {
         break;
       case "!":
         result = equalMatch("=", line[current_token + 1]);
-        console.log(result ? "BANG_EQUAL != null" : "BANG = null")
+        console.log(result ? "BANG_EQUAL != null" : "BANG ! null")
         if (result && current_token < line.length) current_token++;
         break;
       case "=":
@@ -105,13 +105,13 @@ lines.forEach(line => {
       case "<":
         // console.log(line[current_token + 1])
         result = equalMatch("=", line[current_token + 1]);
-        console.log(result ? "LESS_EQUAL <= null" : "LESS = null")
+        console.log(result ? "LESS_EQUAL <= null" : "LESS < null")
         if (result && current_token < line.length) current_token++;
         break;
 
       case ">": 
       result = equalMatch("=", line[current_token + 1]);
-      console.log(result ? "GREATER_EQUAL >= null" : "GREATER = null")
+      console.log(result ? "GREATER_EQUAL >= null" : "GREATER > null")
       if (result && current_token < line.length) current_token++;
       break;
 

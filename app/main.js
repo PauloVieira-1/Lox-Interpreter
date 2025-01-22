@@ -14,8 +14,6 @@ if (command !== "tokenize") {
   process.exit(1);
 }
 
-// console.error("Logs from your program will appear here!");
-
 const filename = args[1];
 const fileContent = fs.readFileSync(filename, "utf8");
 
@@ -77,6 +75,7 @@ if (fileContent.length !== 0) {
     }
   
   }
+
   console.log("EOF  null")
 
   } else {

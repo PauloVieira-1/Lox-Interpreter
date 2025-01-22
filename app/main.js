@@ -117,6 +117,16 @@ lines.forEach(line => {
       if (result && current_token < line.length) current_token++;
       break;
 
+      case `"`:
+        result = false 
+        for (let i = current_token + 1; i < line.length; i++) {
+          if (line[i] === `"`) {
+            result = true;
+          }
+        } 
+      result ? console.log(`STRING ${`${line.substring(current_token + 1, i)}`} null`) : console.error(`[line ${current_line}] Error: Unterminated string`);
+
+
     }
   }
 })

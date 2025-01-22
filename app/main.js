@@ -94,24 +94,24 @@ lines.forEach(line => {
         break;
       case "!":
         result = equalMatch("=", line[current_token + 1]);
-        console.log(result ? "BANG_EQUAL" : "BANG")
+        console.log(result ? "BANG_EQUAL = null" : "BANG = null")
         if (result && current_token < line.length) current_token++;
         break;
       case "=":
         result = equalMatch("=", line[current_token + 1]);
-        console.log(result ? "EQUAL_EQUAL" : "EQUAL")
+        console.log(result ? "EQUAL_EQUAL == null" : "EQUAL = null")
         if (result && current_token < line.length) current_token++;
         break;
       case "<":
         // console.log(line[current_token + 1])
         result = equalMatch("=", line[current_token + 1]);
-        console.log(result ? "LESS_EQUAL" : "LESS")
+        console.log(result ? "LESS_EQUAL <= null" : "LESS = null")
         if (result && current_token < line.length) current_token++;
         break;
 
       case ">": 
       result = equalMatch("=", line[current_token + 1]);
-      console.log(result ? "GREATER_EQUAL" : "GREATER")
+      console.log(result ? "GREATER_EQUAL >= null" : "GREATER = null")
       if (result && current_token < line.length) current_token++;
       break;
 

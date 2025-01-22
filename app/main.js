@@ -36,14 +36,23 @@ const CheckErrors = (lines) => {
   let current_line = 1
   
   lines.forEach(line => {
+    let number_count = 0;
     for (let j = 0; j < line.length; j++) {
       if (invalidTokens.includes(line[j])) {
         console.error(`[line ${current_line}] Error: Unexpected character: ${line[j]}`);
         hasInvalidToken = true
+        break;
+      } else if (line[j] === '"') {
+        number_count++;
       }
+
+    }
+    if (number_count % 2 !== 0) {
+      console.error(`[line ${current_line}] Error: Unterminated string.`);
+      hasInvalidToken = true;
     }
     current_line++;
-  });
+});
   
 }
 
@@ -118,14 +127,12 @@ lines.forEach(line => {
       break;
 
       case `"`:
-        result = false 
         for (let i = current_token + 1; i < line.length; i++) {
           if (line[i] === `"`) {
-            result = true;
+            let printable = line.substring(current_token + 1, i)
+            console.log(`STRING ${`${printable}`} null`)
           }
         } 
-      result ? console.log(`STRING ${`${line.substring(current_token + 1, i)}`} null`) : console.error(`[line ${current_line}] Error: Unterminated string`);
-
 
     }
   }
@@ -141,8 +148,6 @@ lines.forEach(line => {
 const equalMatch = (token, nextPlace) => {
   return  nextPlace === token;
 }
-
-
 
 
 

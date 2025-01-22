@@ -23,6 +23,10 @@ const fileContent = fs.readFileSync(filename, "utf8");
 
 /// END ///
 
+
+
+
+
 /**
  * 
  * @param {Array} lines 
@@ -43,20 +47,77 @@ const CheckErrors = (lines) => {
   
 }
 
-
-/**v
+/**
  * 
  * @param {Array} token 
  */
 const logTokens = (lines) => {
   
 lines.forEach(line => {
-  for (let j = 0; j < line.length; j++) {
-    console.log(line[j]);
+    
+  for (let current_token = 0; current_token < line.length; current_token++) {
+    
+    let result;
+    switch(line[current_token]) {
+      case "(":
+        console.log("LEFT_PAREN ( null");
+        break;
+      case ")":
+        console.log("RIGHT_PAREN ) null")
+        break;
+      case "{":
+        console.log("LEFT_BRACE { null")
+        break;
+      case "}":
+        console.log("RIGHT_BRACE } null")
+        break;
+      case ",":
+        console.log("COMMA , null")
+        break;
+      case ".":
+        console.log("DOT . null")
+        break;
+      case "-":
+        console.log("MINUS - null")
+        break;
+      case "+":
+        console.log("PLUS + null")
+        break;
+      case ";":
+        console.log("SEMICOLON ; null")
+        break;
+      case "*":
+        console.log("STAR * null")
+        break;
+      case "/":
+        console.log("SLASH / null")
+        break;
+      case "!":
+        result = equalMatch("=", line[current_token + 1]);
+        console.log(result ? "BANG_EQUAL" : "BANG")
+        if (result && current_token < line.length) current_token++;
+        break;
+      case "=":
+        result = equalMatch("=", line[current_token + 1]);
+        console.log(result ? "EQUAL_EQUAL" : "EQUAL")
+        if (result && current_token < line.length) current_token++;
+        break;
+      case "<":
+        // console.log(line[current_token + 1])
+        result = equalMatch("=", line[current_token + 1]);
+        console.log(result ? "LESS_EQUAL" : "LESS")
+        if (result && current_token < line.length) current_token++;
+        break;
+
+      case ">": 
+      result = equalMatch("=", line[current_token + 1]);
+      console.log(result ? "GREATER_EQUAL" : "GREATER")
+      if (result && current_token < line.length) current_token++;
+      break;
+
+    }
   }
 })
-
-
 }
 
 /**
@@ -66,10 +127,16 @@ lines.forEach(line => {
  * @returns {Boolean}
  */
 const equalMatch = (token, nextPlace) => {
-  console.log(token, nextPlace);
   return  nextPlace === token;
 }
 
+
+
+
+
+
+
+/// TOKENIZING FILE 
 
 const invalidTokens = ["$", "#", "@", "%"];
 let hasInvalidToken = false 
@@ -78,58 +145,9 @@ if (fileContent.length !== 0) {
   
   let lines = fileContent.split("\n");
 
-  /// CHECK ERRORS
   CheckErrors(lines)
+  logTokens(lines)
   
-  for (let i = 0; i < lines.length; i++) {
-    for (let s = 0; s < lines[i].length; s++) {
-
-      switch(lines[i][s]) {
-        case "(":
-          console.log("LEFT_PAREN ( null");
-          break;
-        case ")":
-          console.log("RIGHT_PAREN ) null")
-          break;
-        case "{":
-          console.log("LEFT_BRACE { null")
-          break;
-        case "}":
-          console.log("RIGHT_BRACE } null")
-          break;
-        case ",":
-          console.log("COMMA , null")
-          break;
-        case ".":
-          console.log("DOT . null")
-          break;
-        case "-":
-          console.log("MINUS - null")
-          break;
-        case "+":
-          console.log("PLUS + null")
-          break;
-        case ";":
-          console.log("SEMICOLON ; null")
-          break;
-        case "*":
-          console.log("STAR * null")
-          break;
-        case "/":
-          console.log("SLASH / null")
-          break;
-        case "!":
-          console.log(equalMatch("=", lines[i][s + 1]) ? "BANG_EQUAL" : "EQUAL")
-        case "=":
-          console.log(equalMatch("=", lines[i][s + 1]) ? "EQUAL_EQUAL" : "EQUAL")
-        case "<":
-          console.log(equalMatch("=", lines[i][s + 1]) ? "LESS_EQUAL" : "LESS")
-        case ">": 
-        console.log(equalMatch("=", lines[i][s + 1]) ? "GREATER_EQUAL" : "GREATER")
-      }
-    }
-  
-  }
 
   console.log("EOF  null")
 

@@ -24,17 +24,19 @@ let hasInvalidToken = false
 if (fileContent.length !== 0) {
   
   let lines = fileContent.split("\n");
-  
-  for (let i = 0; i < lines.length; i++) {
+  let current_line = 1;
 
-    for (let j = 0; j < lines[i].length; j++) {
-      // console.log(lines[i][j])
-      if (invalidTokens.includes(lines[i][j])) {
-        console.log(`[line ${i + 1}] Error: Unexpected character: ${lines[i][j]}`);
+  lines.forEach(line => {
+    for (let j = 0; j < line.length; j++) {
+      if (invalidTokens.includes(line[j])) {
+        console.log(`[line ${current_line}] Error: Unexpected character: ${line[j]}`);
         hasInvalidToken = true
       }
-      }
-
+    }
+    current_line++;
+  });
+  
+  for (let i = 0; i < lines.length; i++) {
     for (let s = 0; s < lines[i].length; s++) {
 
       switch(lines[i][s]) {

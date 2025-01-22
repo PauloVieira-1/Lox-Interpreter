@@ -129,7 +129,8 @@ lines.forEach(line => {
       case `"`:
         for (let i = current_token + 1; i < line.length; i++) {
           if (line[i] === `"`) {
-            let printable = line.substring(current_token, i)
+            let printable = line.substring(current_token + 1
+, i)
             console.log(`STRING ${`"${printable}"`} ${printable}`);
           }
         } 

@@ -127,14 +127,13 @@ lines.forEach(line => {
       break;
 
       case `"`:
-        let nextStringLiteral = str.indexOf('"', current_token+1);
+        let nextStringLiteral = line.indexOf('"', current_token+1);
         if(nextStringLiteral == -1){
-          error += `[line ${i+1}] Error: Unterminated string.`
           break;
         }
         else{
-          let stringIn = str.slice(j+1, nextStringLiteral);
-          token += `STRING "${stringIn}" ${stringIn}\n`;
+          let stringIn = line.slice(current_token+1, nextStringLiteral);
+          console.log(`STRING "${stringIn}" ${stringIn}`);
           current_token += nextStringLiteral;
           continue;
         }

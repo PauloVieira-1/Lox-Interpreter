@@ -49,7 +49,7 @@ const CheckErrors = (lines) => {
     }
     if (number_count % 2 !== 0) {
       console.error(`[line ${current_line}] Error: Unterminated string.`);
-      // hasInvalidToken = true;
+      hasInvalidToken = true;
     }
     current_line++;
 });

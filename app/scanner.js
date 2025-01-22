@@ -251,3 +251,51 @@
 //     }
 
 //     export { Scanner } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function run(source) {
+//   const scanner = new Scanner(source); 
+//   const tokens = scanner.scanTokens(); 
+
+//   for (const token of tokens) {
+//     console.log(token);
+//   }
+// }
+
+// run(fileContent);
+
+// Error Handling 
+
+// class Lox {
+
+//   static hadError = false;
+//   static error(line, message) { // create seoerte class later 
+//     report(line, "", message);
+//   }
+  
+//   static report(line, where, message) {
+//     console.error(`[line ${line}] Error${where}: ${message}`);
+//     hadError = true;
+//   }
+
+//   if (hadError) {
+//     process.exit(65);
+//     hadError = false; /// Good practice to seperate code that generates errors and code that report them, hence why not in scanner 
+
+// }  
+
+// }
+
+// export { Lox }

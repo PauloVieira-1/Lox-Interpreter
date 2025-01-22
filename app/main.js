@@ -131,7 +131,7 @@ lines.forEach(line => {
         for (let i = start; i < line.length; i++) {
           if (line[i] === `"`) {
             let printable = line.substring(start, i); 
-            console.log(`STRING ${`"${printable}"`} ${printable}`);
+            console.log(`STRING "${printable}" ${printable}`);
             current_token = i; 
           }
         } 

@@ -90,7 +90,9 @@ lines.forEach(line => {
         console.log("STAR * null")
         break;
       case "/":
-        console.log("SLASH / null")
+        result = equalMatch("/", line[current_token + 1]);
+        console.log(result && "SLASH / null")
+        if (result && current_token < line.length) current_token += line.length - current_token
         break;
       case "!":
         result = equalMatch("=", line[current_token + 1]);

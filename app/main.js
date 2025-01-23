@@ -127,17 +127,18 @@ lines.forEach(line => {
       break;
 
       case `"`:
-        let start = current_token + 1
-        let token = "";
+        let start = current_token + 1;
+        let token = '';
         for (let i = start; i < line.length; i++) {
-          if (line[i] === `"`) {
-            console.log(`STRING "${token}" ${token}`);
-          } else {
-
-            token += line[i];
-          }
-        } 
+            if (line.charAt(i) === `"`) {
+                console.log(`STRING "${token}" ${token}`);
+                break; 
+            } else {
+                token += line.charAt(i); 
+            }
+        }
         break;
+
 
     }
   }

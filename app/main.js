@@ -127,18 +127,29 @@ lines.forEach(line => {
       break;
 
       case `"`:
-        let start = current_token + 1;
-        let token = '';
-        for (let i = start; i < line.length; i++) {
-            if (line.charAt(i) === `"`) {
-                console.log(`STRING "${token}" ${token}`);
-                break; 
-            } else {
-                token += line.charAt(i); 
-            }
-        }
-        break;
 
+        let string = '';
+        current_token++;
+
+        while (line[current_token] != `"` && current_token < line.length) {
+          string += line[current_token];
+          current_token++;
+        }
+        current_token++;
+        console.log(`STRING "${string}" ${string}`);
+
+
+        // let start = current_token + 1;
+        // let token = '';
+        // for (let i = start; i < line.length; i++) {
+        //     if (line.charAt(i) === `"`) {
+        //         console.log(`STRING "${token}" ${token}`);
+        //         break; 
+        //     } else {
+        //         token += line.charAt(i); 
+        //     }
+        // }
+        break;
 
     }
   }
@@ -171,7 +182,6 @@ if (fileContent.length !== 0) {
   CheckErrors(lines)
   logTokens(lines)
   
-
   console.log("EOF  null")
 
   } else {

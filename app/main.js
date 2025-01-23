@@ -42,14 +42,14 @@ const CheckErrors = (lines) => {
         console.error(`[line ${current_line}] Error: Unexpected character: ${line[j]}`);
         hasInvalidToken = true
         break;
-    //   } else if (line[j] === '"') {
-    //     number_count++;
-    //   }
+      } else if (line[j] === '"') {
+        number_count++;
+      }
 
     }
-    // if (number_count % 2 !== 0) {
-    //   console.error(`[line ${current_line}] Error: Unterminated string.`);
-    //   hasInvalidToken = true;
+    if (number_count % 2 !== 0) {
+      console.error(`[line ${current_line}] Error: Unterminated string.`);
+      hasInvalidToken = true;
     }
     current_line++;
 });
@@ -130,19 +130,13 @@ lines.forEach(line => {
 
         let string = '';
         current_token++;
-        let lexicalErrors = false
 
         while (line[current_token] != `"` && current_token < line.length) {
           string += line[current_token];
           current_token++;
         }
-        if(lines[current_token]!='"'){
-          console.error(`[line ${current_token}] Error: Unterminated string.`)
-          lexicalErrors = true;
-          break;
-        }
+        current_token++;
         console.log(`STRING "${string}" ${string}`);
-        break;
 
 
         // let start = current_token + 1;

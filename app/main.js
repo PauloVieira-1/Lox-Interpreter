@@ -32,26 +32,31 @@ const fileContent = fs.readFileSync(filename, "utf8");
  * @param {Array} lines 
  */
 
-const CheckErrors = (lines) => {
-  let current_line = 1
-  
+const CheckErrors = (lines) => { 
+  let current_line = 1 
   lines.forEach(line => {
-    let number_count = 0;
+    let matched = false;
     for (let j = 0; j < line.length; j++) {
       if (invalidTokens.includes(line[j])) {
         console.error(`[line ${current_line}] Error: Unexpected character: ${line[j]}`);
         hasInvalidToken = true
         break;
-      // } else if (line[j] === '"') {
-      //   number_count++;
-      }
-
+      } else if (line[j] === '"') {
+        let current_token = j + 1;
+        while (current_token < line.length) {
+          if (line[current_token] === `"`) {
+            matched = true;
+            break;
+          }
+          current_token++;
+        }
+        if (!matched) {
+          console.error(`[line ${current_line}] Error: Unterminated string.`);
+        }
     }
-    // if (number_count % 2 !== 0) {
-    //   console.error(`[line ${current_line}] Error: Unterminated string.`);
-    //   hasInvalidToken = true;
-    // }
-    current_line++;
+  }
+  current_line++;
+
 });
   
 }
@@ -61,7 +66,7 @@ const CheckErrors = (lines) => {
  * @param {Array} token 
  */
 const logTokens = (lines) => {
-  let current_line = 1
+let current_line = 1
 lines.forEach(line => {
     
   for (let current_token = 0; current_token < line.length; current_token++) {
@@ -130,25 +135,38 @@ lines.forEach(line => {
 
         let string = '';
         current_token++;
-        let matched = false 
 
-        while (current_token < line.length) {
-          if (line[current_token] === `"`) {
-            matched = true
-            break;
-          }
+        while (current_token < line.length && line[current_token] !== `"`) {
           string += line[current_token];
           current_token++;
         }
         current_token++;
-
-        if (matched){
-          console.log(`STRING "${string}" ${string}`);
-        } else {
-          console.error(`[line ${current_token}] Error: Unterminated string.`);
-          process.exit(65)
-        }
+        console.log(`STRING "${string}" ${string}`);
         break;
+
+
+
+        // let string = '';
+        // current_token++;
+        // let matched = false 
+
+        // while (current_token < line.length) {
+        //   if (line[current_token] === `"`) {
+        //     matched = true
+        //     break;
+        //   }
+        //   string += line[current_token];
+        //   current_token++;
+        // }
+        // current_token++;
+
+        // if (matched){
+        //   console.log(`STRING "${string}" ${string}`);
+        // } else {
+        //   console.error(`[line ${current_line}] Error: Unterminated string.`);
+        //   process.exit(65)
+        // }
+        // break;
 
 
         // let start = current_token + 1;
@@ -165,6 +183,7 @@ lines.forEach(line => {
 
     }
   }
+  current_line++;
 })
 }
 

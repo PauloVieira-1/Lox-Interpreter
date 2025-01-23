@@ -51,6 +51,7 @@ const CheckErrors = (lines) => {
           current_token++;
         }
         if (!matched) {
+          hasInvalidToken = true;
           console.error(`[line ${current_line}] Error: Unterminated string.`);
         }
     }

@@ -42,15 +42,15 @@ const CheckErrors = (lines) => {
         console.error(`[line ${current_line}] Error: Unexpected character: ${line[j]}`);
         hasInvalidToken = true
         break;
-      } else if (line[j] === '"') {
-        number_count++;
+      // } else if (line[j] === '"') {
+      //   number_count++;
       }
 
     }
-    if (number_count % 2 !== 0) {
-      console.error(`[line ${current_line}] Error: Unterminated string.`);
-      hasInvalidToken = true;
-    }
+    // if (number_count % 2 !== 0) {
+    //   console.error(`[line ${current_line}] Error: Unterminated string.`);
+    //   hasInvalidToken = true;
+    // }
     current_line++;
 });
   
@@ -61,7 +61,7 @@ const CheckErrors = (lines) => {
  * @param {Array} token 
  */
 const logTokens = (lines) => {
-  
+  let current_line = 1
 lines.forEach(line => {
     
   for (let current_token = 0; current_token < line.length; current_token++) {
@@ -130,13 +130,24 @@ lines.forEach(line => {
 
         let string = '';
         current_token++;
+        let matched = false 
 
-        while (line[current_token] != `"` && current_token < line.length) {
+        while (current_token < line.length) {
+          if (line[current_token] === `"`) {
+            matched = true
+            break;
+          }
           string += line[current_token];
           current_token++;
         }
         current_token++;
-        console.log(`STRING "${string}" ${string}`);
+
+        if (matched){
+          console.log(`STRING "${string}" ${string}`);
+        } else {
+          console.error(`[line ${current_token}] Error: Unterminated string.`);
+        }
+        break;
 
 
         // let start = current_token + 1;
@@ -165,8 +176,6 @@ lines.forEach(line => {
 const equalMatch = (token, nextPlace) => {
   return  nextPlace === token;
 }
-
-
 
 
 

@@ -146,6 +146,7 @@ lines.forEach(line => {
           console.log(`STRING "${string}" ${string}`);
         } else {
           console.error(`[line ${current_token}] Error: Unterminated string.`);
+          process.exit(65)
         }
         break;
 

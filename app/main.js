@@ -33,35 +33,37 @@ let lexicalErrors = false
  * @param {Array} lines 
  */
 
-const CheckErrors = (lines) => { 
-  let current_line = 1 
-  lines.forEach(line => {
+const CheckErrors = (lines) => {
+  let current_line = 1;
+  lines.forEach((line) => {
     let matched = false;
     for (let j = 0; j < line.length; j++) {
       if (invalidTokens.includes(line[j])) {
         console.error(`[line ${current_line}] Error: Unexpected character: ${line[j]}`);
-        hasInvalidToken = true
+        hasInvalidToken = true;
         break;
       } else if (line[j] === '"') {
         let current_token = j + 1;
+        let stringContent = "";
         while (current_token < line.length) {
           if (line[current_token] === `"`) {
             matched = true;
             break;
           }
+          stringContent += line[current_token];
           current_token++;
         }
-        if (!matched && line[j] === '"') {
+        if (!matched) {
           lexicalErrors = true;
           console.error(`[line ${current_line}] Error: Unterminated string.`);
+          break; // Stop processing further tokens for this line
         }
+      }
     }
-  }
-  current_line++;
+    current_line++;
+  });
+};
 
-});
-  
-}
 
 /**
  * 

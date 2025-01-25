@@ -140,9 +140,8 @@ lines.forEach(line => {
           
           let start_number = current_token;
 
-          while (start_number < line.length && isDigit(line[current_token])) {
+          while (current_token < line.length && isDigit(line[current_token])) {
             current_token++;
-
           }
 
           if (current_token < line.length && line[current_token] === '.') {
@@ -154,13 +153,14 @@ lines.forEach(line => {
             current_token = start_decimal;
           }
 
-
           let numberString = line.substring(start_number, current_token);
           let floatNumber = parseFloat(numberString);
           console.log("NUMBER "+numberString+" "+(Number.isInteger(floatNumber)?floatNumber+".0":floatNumber));
+          current_token--;
         } 
         break;
     }
+
   } 
   current_line++;
 })

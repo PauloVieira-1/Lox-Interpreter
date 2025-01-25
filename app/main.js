@@ -25,6 +25,9 @@ const fileContent = fs.readFileSync(filename, "utf8");
 /// END ///
 
 
+
+
+
 /**
  * 
  * @param {Array} lines 
@@ -39,7 +42,20 @@ const CheckErrors = (lines) => {
         console.error(`[line ${current_line}] Error: Unexpected character: ${line[j]}`);
         hasInvalidToken = true
         break;
-      } 
+      } else if (line[j] === '"') {
+        let current_token = j + 1;
+        while (current_token < line.length) {
+          if (line[current_token] === `"`) {
+            matched = true;
+            break;
+          }
+          current_token++;
+        }
+        if (!matched) {
+          hasInvalidToken = true;
+          console.error(`[line ${current_line}] Error: Unterminated string.`);
+        }
+    }
   }
   current_line++;
 
@@ -116,29 +132,58 @@ lines.forEach(line => {
       if (result && current_token < line.length) current_token++;
       break;
 
-      case `"`: {
-        let stringContent = "";
+      case `"`:
+
+        let string = '';
         current_token++;
-        
+
         while (current_token < line.length && line[current_token] !== `"`) {
-          stringContent += line[current_token];
+          string += line[current_token];
           current_token++;
         }
-        
-        if (current_token < line.length && line[current_token] === `"`) {
-          console.log(`STRING "${stringContent}" ${stringContent}`); 
-        } else {
-          LexicalErros = true;
-          console.error(`[line ${current_line}] Error: Unterminated string.`);
-          break;
-        }
+        current_token++;
+        console.log(`STRING "${string}" ${string}`);
         break;
-      }
-      
-      
 
       case typeof line[current_token] === "number":
+        
+        let start = current_token;
+        let number_string = '';
+        
+        console.log(line[start])
+        while (start < line.length && line[start] >= '0' && line[start] <= '0') {
+          number_string += line[start];
+          start++;
+        }
+
+        let float = parseFloat(number_string)
+
+        console.log(`NUMBER ${number_string} ${float}`);
         break;
+
+
+
+        // let string = '';
+        // current_token++;
+        // let matched = false 
+
+        // while (current_token < line.length) {
+        //   if (line[current_token] === `"`) {
+        //     matched = true
+        //     break;
+        //   }
+        //   string += line[current_token];
+        //   current_token++;
+        // }
+        // current_token++;
+
+        // if (matched){
+        //   console.log(`STRING "${string}" ${string}`);
+        // } else {
+        //   console.error(`[line ${current_line}] Error: Unterminated string.`);
+        //   process.exit(65)
+        // }
+        // break;
 
 
         // let start = current_token + 1;
@@ -151,14 +196,7 @@ lines.forEach(line => {
         //         token += line.charAt(i); 
         //     }
         // }
-        // break;
-
-        // let float = parseFloat(number_string)
-
-        // console.log(`NUMBER ${number_string} ${float}`);
-        // break;
-
-
+        break;
 
     }
   }
@@ -180,7 +218,6 @@ const equalMatch = (token, nextPlace) => {
 
 const invalidTokens = ["$", "#", "@", "%"];
 let hasInvalidToken = false 
-let LexicalErros = false
  
 if (fileContent.length !== 0) {
   
@@ -188,16 +225,13 @@ if (fileContent.length !== 0) {
 
   CheckErrors(lines)
   logTokens(lines)
-
   
   console.log("EOF  null")
-
-  if (hasInvalidToken || LexicalErros) {
-    process.exit(65);
-  }
 
   } else {
   console.log("EOF  null");
 }
 
-
+if (hasInvalidToken) {
+  process.exit(65);
+}

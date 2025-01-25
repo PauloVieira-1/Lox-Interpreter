@@ -152,7 +152,7 @@ lines.forEach(line => {
           }
 
           let numberValue = parseFloat(line.slice(start_number, current_token)).toFixed(1);
-          console.log(`NUMBER "${numberValue.slice(0, numberValue.length - 2)}" ${numberValue}`);
+          console.log(`NUMBER ${numberValue.slice(0, numberValue.length - 2)} ${numberValue}`);
         } 
         break;
     }

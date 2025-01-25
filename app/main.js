@@ -49,7 +49,7 @@ const CheckErrors = (lines) => {
           current_token++;
         }
         if (!matched) {
-          hasInvalidToken = true;
+          lexicalErrors = true;
           console.error(`[line ${current_line}] Error: Unterminated string.`);
         }
     }
@@ -177,6 +177,7 @@ const equalMatch = (token, nextPlace) => {
 
 const invalidTokens = ["$", "#", "@", "%"];
 let hasInvalidToken = false 
+let lexicalErrors = false
  
 if (fileContent.length !== 0) {
   
@@ -192,7 +193,7 @@ if (fileContent.length !== 0) {
   console.log("EOF  null");
 }
 
-if (hasInvalidToken) {
+if (hasInvalidToken || lexicalErrors) {
   process.exit(65);
 }
 

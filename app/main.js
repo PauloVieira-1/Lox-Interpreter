@@ -118,7 +118,6 @@ lines.forEach(line => {
 
       case `"`: {
         let stringContent = "";
-        let start = current_token; // Save starting index of the string
         current_token++;
         
         while (current_token < line.length && line[current_token] !== `"`) {
@@ -126,9 +125,8 @@ lines.forEach(line => {
           current_token++;
         }
         
-        // Correctly handle unterminated string
         if (current_token < line.length && line[current_token] === `"`) {
-          console.log(`STRING "${stringContent}" ${stringContent}`); // Remove extra quotes around stringContent
+          console.log(`STRING "${stringContent}" ${stringContent}`); 
         } else {
           LexicalErros = true;
           console.error(`[line ${current_line}] Error: Unterminated string.`);
@@ -194,11 +192,12 @@ if (fileContent.length !== 0) {
   
   console.log("EOF  null")
 
+  if (hasInvalidToken || LexicalErros) {
+    process.exit(65);
+  }
+
   } else {
   console.log("EOF  null");
 }
 
-if (hasInvalidToken) {
-  process.exit(65);
-}
 

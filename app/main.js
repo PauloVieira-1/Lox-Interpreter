@@ -137,59 +137,21 @@ lines.forEach(line => {
         }
         break;
 
-      // case typeof line[current_token] === "number":
+      case typeof line[current_token] === "number":
         
-      //   let start = current_token;
-      //   let number_string = '';
+        let start_number = current_token;
+        let number_string = '';
         
-      //   console.log(line[start])
-      //   while (start < line.length && line[start] >= '0' && line[start] <= '0') {
-      //     number_string += line[start];
-      //     start++;
-      //   }
+        console.log(line[start_number])
+        while (start_number < line.length && line[start_number] >= '0' && line[start_number] <= '0') {
+          number_string += line[start_number];
+          start++;
+        }
 
-      //   let float = parseFloat(number_string)
+        let float = parseFloat(number_string)
 
-      //   console.log(`NUMBER ${number_string} ${float}`);
-      //   break;
-
-
-
-        // let string = '';
-        // current_token++;
-        // let matched = false 
-
-        // while (current_token < line.length) {
-        //   if (line[current_token] === `"`) {
-        //     matched = true
-        //     break;
-        //   }
-        //   string += line[current_token];
-        //   current_token++;
-        // }
-        // current_token++;
-
-        // if (matched){
-        //   console.log(`STRING "${string}" ${string}`);
-        // } else {
-        //   console.error(`[line ${current_line}] Error: Unterminated string.`);
-        //   process.exit(65)
-        // }
-        // break;
-
-
-        // let start = current_token + 1;
-        // let token = '';
-        // for (let i = start; i < line.length; i++) {
-        //     if (line.charAt(i) === `"`) {
-        //         console.log(`STRING "${token}" ${token}`);
-        //         break; 
-        //     } else {
-        //         token += line.charAt(i); 
-        //     }
-        // }
+        console.log(`NUMBER ${number_string} ${float}`);
         break;
-
     }
   }
   current_line++;

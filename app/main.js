@@ -180,20 +180,16 @@ const equalMatch = (token, nextPlace) => {
 /// TOKENIZING FILE 
  
 if (fileContent.length !== 0) {
-  
-  let lines = fileContent.split("\n");
-
-  CheckErrors(lines)
-  logTokens(lines)
-
-  
-  console.log("EOF  null")
-
-  } else {
+  const lines = fileContent.split("\n");
+  CheckErrors(lines);
+  logTokens(lines);
+  console.log("EOF  null");
+} else {
   console.log("EOF  null");
 }
 
 if (hasInvalidToken || lexicalErrors) {
-  process.exit(65);
+  process.exit(65); // Exit with error code
 }
+
 

@@ -25,9 +25,6 @@ const fileContent = fs.readFileSync(filename, "utf8");
 /// END ///
 
 
-
-
-
 /**
  * 
  * @param {Array} lines 
@@ -225,6 +222,7 @@ if (fileContent.length !== 0) {
 
   CheckErrors(lines)
   logTokens(lines)
+
   
   console.log("EOF  null")
 
@@ -233,5 +231,7 @@ if (fileContent.length !== 0) {
 }
 
 if (hasInvalidToken) {
+  console.log("Error: Invalid token.");
   process.exit(65);
 }
+

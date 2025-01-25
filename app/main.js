@@ -130,7 +130,7 @@ lines.forEach(line => {
         if (current_token < line.length && line[current_token] === `"`) {
           console.log(`STRING "${stringContent}" ${stringContent}`); // Remove extra quotes around stringContent
         } else {
-          hasInvalidToken = true;
+          LexicalErros = true;
           console.error(`[line ${current_line}] Error: Unterminated string.`);
           break;
         }
@@ -182,6 +182,7 @@ const equalMatch = (token, nextPlace) => {
 
 const invalidTokens = ["$", "#", "@", "%"];
 let hasInvalidToken = false 
+let LexicalErros = false
  
 if (fileContent.length !== 0) {
   
@@ -197,7 +198,7 @@ if (fileContent.length !== 0) {
   console.log("EOF  null");
 }
 
-if (hasInvalidToken) {
+if (hasInvalidToken || LexicalErros) {
   process.exit(65);
 }
 

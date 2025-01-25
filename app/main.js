@@ -134,6 +134,7 @@ lines.forEach(line => {
           console.log(`STRING "${string}" ${string}`);
         } else {
           console.error(`[line ${current_line}] Error: Unterminated string at line ${current_line}`);
+          hasInvalidToken = true
         }
         break;
 

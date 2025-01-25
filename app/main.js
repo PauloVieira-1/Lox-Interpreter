@@ -198,7 +198,7 @@ if (fileContent.length !== 0) {
   console.log("EOF  null");
 }
 
-if (hasInvalidToken || LexicalErros) {
+if (hasInvalidToken) {
   process.exit(65);
 }
 

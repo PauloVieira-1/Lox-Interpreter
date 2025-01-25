@@ -116,27 +116,24 @@ lines.forEach(line => {
       if (result && current_token < line.length) current_token++;
       break;
 
-      case `"`:
-      let stringEmpty = '';
-      current_token++;
-      let matched = false 
-
-      while (current_token < line.length && line[current_token] !== `"`) {
-        stringEmpty += line[current_token];
+      case `"`: {
+        let stringContent = "";
+        let start = current_token; // Save starting index of the string
         current_token++;
+        while (current_token < line.length && line[current_token] !== `"`) {
+          stringContent += line[current_token];
+          current_token++;
+        }
+        if (current_token < line.length && line[current_token] === `"`) {
+          console.log(`STRING "${line.slice(start, current_token + 1)}" ${stringContent}`);
+        } else {
+          lexicalErrors = true;
+          console.error(`[line ${current_line}] Error: Unterminated string.`);
+          break;
+        }
+        break;
       }
-      if (current_token < line.length && line[current_token] === `"`) {
-        matched = true
-        current_token++;
-      }
-
-      if (matched){
-        console.log(`STRING "${stringEmpty}" ${stringEmpty}`);
-      } else {
-        console.error(`[line ${current_line}] Error: Unterminated string.`);
-        hasInvalidToken = true
-      }
-      break;
+      
 
       case typeof line[current_token] === "number":
         break;

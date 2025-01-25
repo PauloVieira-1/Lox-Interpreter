@@ -130,7 +130,7 @@ lines.forEach(line => {
         if (current_token < line.length && line[current_token] === `"`) {
           console.log(`STRING "${stringContent}" ${stringContent}`); // Remove extra quotes around stringContent
         } else {
-          lexicalErrors = true;
+          hasInvalidToken = true;
           console.error(`[line ${current_line}] Error: Unterminated string.`);
           break;
         }

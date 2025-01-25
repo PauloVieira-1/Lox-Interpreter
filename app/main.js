@@ -36,33 +36,28 @@ let lexicalErrors = false
 const CheckErrors = (lines) => {
   let current_line = 1;
   lines.forEach((line) => {
-    let matched = false;
     for (let j = 0; j < line.length; j++) {
-      if (invalidTokens.includes(line[j])) {
-        console.error(`[line ${current_line}] Error: Unexpected character: ${line[j]}`);
-        hasInvalidToken = true;
-        break;
-      } else if (line[j] === '"') {
+      if (line[j] === '"') {
         let current_token = j + 1;
-        let stringContent = "";
+        let matched = false;
         while (current_token < line.length) {
           if (line[current_token] === `"`) {
             matched = true;
             break;
           }
-          stringContent += line[current_token];
           current_token++;
         }
         if (!matched) {
           lexicalErrors = true;
           console.error(`[line ${current_line}] Error: Unterminated string.`);
-          break; // Stop processing further tokens for this line
+          break; 
         }
       }
     }
     current_line++;
   });
 };
+
 
 
 /**
@@ -133,19 +128,23 @@ lines.forEach(line => {
       if (result && current_token < line.length) current_token++;
       break;
 
-      case `"`:
-
-        let string = '';
+      case `"`: {
+        let stringContent = "";
+        let start = current_token; 
         current_token++;
-
         while (current_token < line.length && line[current_token] !== `"`) {
-          string += line[current_token];
+          stringContent += line[current_token];
           current_token++;
         }
-        current_token++;
-        console.log(`STRING "${string}" ${string}`);
+        if (current_token < line.length && line[current_token] === `"`) {
+          console.log(`STRING "${line.slice(start, current_token + 1)}" ${stringContent}`);
+        } else {
+          lexicalErrors = true;
+          console.error(`[line ${current_line}] Error: Unterminated string.`);
+          break;
+        }
         break;
-
+      }
         // case line[current_token] >= '0' && line[current_token] <= '9':
         
         // let start = current_token;

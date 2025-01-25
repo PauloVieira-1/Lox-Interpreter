@@ -4,6 +4,7 @@ import fs from "fs";
 
 
 /// Opening File ///
+
 const args = process.argv.slice(2); 
 
 if (args.length < 2) {
@@ -125,7 +126,6 @@ lines.forEach(line => {
         console.log(result ? "LESS_EQUAL <= null" : "LESS < null")
         if (result && current_token < line.length) current_token++;
         break;
-
       case ">": 
       result = equalMatch("=", line[current_token + 1]);
       console.log(result ? "GREATER_EQUAL >= null" : "GREATER > null")
@@ -143,6 +143,22 @@ lines.forEach(line => {
         }
         current_token++;
         console.log(`STRING "${string}" ${string}`);
+        break;
+
+      case typeof line[current_token] === "number":
+        
+        let start = current_token;
+        let number_string = '';
+        
+        console.log(line[start])
+        while (start < line.length && line[start] >= '0' && line[start] <= '0') {
+          number_string += line[start];
+          start++;
+        }
+
+        let float = parseFloat(number_string)
+
+        console.log(`NUMBER ${number_string} ${float}`);
         break;
 
 
@@ -188,8 +204,8 @@ lines.forEach(line => {
 })
 }
 
+
 /**
- * 
  * @param {String} token 
  * @param {String} nextPlace 
  * @returns {Boolean}
@@ -197,8 +213,6 @@ lines.forEach(line => {
 const equalMatch = (token, nextPlace) => {
   return  nextPlace === token;
 }
-
-
 
 /// TOKENIZING FILE 
 

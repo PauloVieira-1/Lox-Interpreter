@@ -117,7 +117,6 @@ lines.forEach(line => {
       console.log(result ? "GREATER_EQUAL >= null" : "GREATER > null")
       if (result && current_token < line.length) current_token++;
       break;
-
       case `"`:
         let start = current_token + 1;
         let string = '';
@@ -136,21 +135,25 @@ lines.forEach(line => {
           hasInvalidToken = true
         }
         break;
+      default:
+        if (isDigit(line[current_token])){
+          
+          let start_number = current_token;
 
-      case typeof line[current_token] === "number":
-        
-        let start_number = current_token;
-        let number_string = '';
-        
-        console.log(line[start_number])
-        while (start_number < line.length && line[start_number] >= '0' && line[start_number] <= '0') {
-          number_string += line[start_number];
-          start++;
-        }
+          while (start_number < line.length && isDigit(line[current_token])) {
+            current_token++;
+          }
 
-        let float = parseFloat(number_string)
+          if (start_number < line.length && line[start_number] === '.' && isDigit(line[start_number + 1])) {
+            current_token++;
+            while (start_number < line.length && isDigit(line[start_number])) {
+              current_token++;
+            }
+          }
 
-        console.log(`NUMBER ${number_string} ${float}`);
+          let numberValue = parseFloat(line.slice(start_number, current_token)).toFixed(1);
+          console.log(`NUMBER "${numberValue.slice(0, numberValue.length - 2)}" ${numberValue}`);
+        } 
         break;
     }
   }
@@ -166,6 +169,10 @@ lines.forEach(line => {
  */
 const equalMatch = (token, nextPlace) => {
   return  nextPlace === token;
+}
+
+const isDigit = (c) => {
+  return c >= '0' && c <= '9';
 }
 
 /// TOKENIZING FILE 

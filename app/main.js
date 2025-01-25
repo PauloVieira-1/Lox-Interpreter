@@ -117,20 +117,18 @@ lines.forEach(line => {
       break;
 
       case `"`:
-
       let stringEmpty = '';
       current_token++;
       let matched = false 
 
-      while (current_token < line.length) {
-        if (line[current_token] === `"`) {
-          matched = true
-          break;
-        }
+      while (current_token < line.length && line[current_token] !== `"`) {
         stringEmpty += line[current_token];
         current_token++;
       }
-      current_token++;
+      if (current_token < line.length && line[current_token] === `"`) {
+        matched = true
+        current_token++;
+      }
 
       if (matched){
         console.log(`STRING "${stringEmpty}" ${stringEmpty}`);
@@ -141,7 +139,7 @@ lines.forEach(line => {
       break;
 
       case typeof line[current_token] === "number":
-        
+        break;
 
 
         // let start = current_token + 1;

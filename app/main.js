@@ -146,10 +146,15 @@ lines.forEach(line => {
           }
 
           if (current_token < line.length && line[current_token] === '.') {
-            while (current_token < line.length && isDigit(line[start_number])) {
-              current_token++;
+            let start_decimal = current_token + 1;
+
+            while (start_decimal < line.length && isDigit(line[start_decimal])) {
+              start_decimal++;
             }
+            current_token = start_decimal;
           }
+          
+        
 
           let numberString = line.substring(start_number, current_token);
           let floatNumber = parseFloat(numberString);

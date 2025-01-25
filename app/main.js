@@ -145,21 +145,21 @@ lines.forEach(line => {
         console.log(`STRING "${string}" ${string}`);
         break;
 
-      case typeof line[current_token] === "number":
+      // case typeof line[current_token] === "number":
         
-        let start = current_token;
-        let number_string = '';
+      //   let start = current_token;
+      //   let number_string = '';
         
-        console.log(line[start])
-        while (start < line.length && line[start] >= '0' && line[start] <= '0') {
-          number_string += line[start];
-          start++;
-        }
+      //   console.log(line[start])
+      //   while (start < line.length && line[start] >= '0' && line[start] <= '0') {
+      //     number_string += line[start];
+      //     start++;
+      //   }
 
-        let float = parseFloat(number_string)
+      //   let float = parseFloat(number_string)
 
-        console.log(`NUMBER ${number_string} ${float}`);
-        break;
+      //   console.log(`NUMBER ${number_string} ${float}`);
+      //   break;
 
 
 

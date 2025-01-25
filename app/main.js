@@ -133,7 +133,7 @@ lines.forEach(line => {
           current_token = start;
           console.log(`STRING "${string}" ${string}`);
         } else {
-          console.error(`[line ${current_line}] Error: Unterminated string at line ${current_line}`);
+          console.error(`[line ${current_line}] Error: Unterminated string.`);
           hasInvalidToken = true
         }
         break;

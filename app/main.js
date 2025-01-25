@@ -24,41 +24,28 @@ const fileContent = fs.readFileSync(filename, "utf8");
 
 /// END ///
 
-const invalidTokens = ["$", "#", "@", "%"];
-let hasInvalidToken = false 
-let lexicalErrors = false
 
 /**
  * 
  * @param {Array} lines 
  */
 
-const CheckErrors = (lines) => {
-  let current_line = 1;
-  lines.forEach((line) => {
+const CheckErrors = (lines) => { 
+  let current_line = 1 
+  lines.forEach(line => {
+    let matched = false;
     for (let j = 0; j < line.length; j++) {
-      if (line[j] === '"') {
-        let current_token = j + 1;
-        let matched = false;
-        while (current_token < line.length) {
-          if (line[current_token] === `"`) {
-            matched = true;
-            break;
-          }
-          current_token++;
-        }
-        if (!matched) {
-          lexicalErrors = true;
-          console.error(`[line ${current_line}] Error: Unterminated string.`);
-          break; 
-        }
-      }
-    }
-    current_line++;
-  });
-};
+      if (invalidTokens.includes(line[j])) {
+        console.error(`[line ${current_line}] Error: Unexpected character: ${line[j]}`);
+        hasInvalidToken = true
+        break;
+      } 
+  }
+  current_line++;
 
-
+});
+  
+}
 
 /**
  * 
@@ -118,6 +105,7 @@ lines.forEach(line => {
         if (result && current_token < line.length) current_token++;
         break;
       case "<":
+        // console.log(line[current_token + 1])
         result = equalMatch("=", line[current_token + 1]);
         console.log(result ? "LESS_EQUAL <= null" : "LESS < null")
         if (result && current_token < line.length) current_token++;
@@ -128,38 +116,51 @@ lines.forEach(line => {
       if (result && current_token < line.length) current_token++;
       break;
 
-      case `"`: {
-        let stringContent = "";
-        let start = current_token; 
-        current_token++;
-        while (current_token < line.length && line[current_token] !== `"`) {
-          stringContent += line[current_token];
-          current_token++;
-        }
-        if (current_token < line.length && line[current_token] === `"`) {
-          console.log(`STRING "${line.slice(start, current_token + 1)}" ${stringContent}`);
-        } else {
-          lexicalErrors = true;
-          console.error(`[line ${current_line}] Error: Unterminated string.`);
+      case `"`:
+
+      let stringEmpty = '';
+      current_token++;
+      let matched = false 
+
+      while (current_token < line.length) {
+        if (line[current_token] === `"`) {
+          matched = true
           break;
         }
-        break;
+        stringEmpty += line[current_token];
+        current_token++;
       }
-        // case line[current_token] >= '0' && line[current_token] <= '9':
+      current_token++;
+
+      if (matched){
+        console.log(`STRING "${stringEmpty}" ${stringEmpty}`);
+      } else {
+        console.error(`[line ${current_line}] Error: Unterminated string.`);
+      }
+      break;
+
+      case typeof line[current_token] === "number":
         
-        // let start = current_token;
-        // let number_string = '';
-        
-        // console.log(line[start])
-        // while (start < line.length && line[start] >= '0' && line[start] <= '0') {
-        //   number_string += line[start];
-        //   start++;
+
+
+        // let start = current_token + 1;
+        // let token = '';
+        // for (let i = start; i < line.length; i++) {
+        //     if (line.charAt(i) === `"`) {
+        //         console.log(`STRING "${token}" ${token}`);
+        //         break; 
+        //     } else {
+        //         token += line.charAt(i); 
+        //     }
         // }
+        // break;
 
         // let float = parseFloat(number_string)
 
         // console.log(`NUMBER ${number_string} ${float}`);
         // break;
+
+
 
     }
   }
@@ -178,18 +179,25 @@ const equalMatch = (token, nextPlace) => {
 }
 
 /// TOKENIZING FILE 
+
+const invalidTokens = ["$", "#", "@", "%"];
+let hasInvalidToken = false 
  
 if (fileContent.length !== 0) {
-  const lines = fileContent.split("\n");
-  CheckErrors(lines);
-  logTokens(lines);
-  console.log("EOF  null");
-} else {
+  
+  let lines = fileContent.split("\n");
+
+  CheckErrors(lines)
+  logTokens(lines)
+
+  
+  console.log("EOF  null")
+
+  } else {
   console.log("EOF  null");
 }
 
-if (hasInvalidToken || lexicalErrors) {
-  process.exit(65); // Exit with error code
+if (hasInvalidToken) {
+  process.exit(65);
 }
-
 

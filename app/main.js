@@ -24,6 +24,9 @@ const fileContent = fs.readFileSync(filename, "utf8");
 
 /// END ///
 
+const invalidTokens = ["$", "#", "@", "%"];
+let hasInvalidToken = false 
+let lexicalErrors = false
 
 /**
  * 
@@ -174,10 +177,6 @@ const equalMatch = (token, nextPlace) => {
 }
 
 /// TOKENIZING FILE 
-
-const invalidTokens = ["$", "#", "@", "%"];
-let hasInvalidToken = false 
-let lexicalErrors = false
  
 if (fileContent.length !== 0) {
   

@@ -116,7 +116,7 @@ lines.forEach(line => {
       result = equalMatch("=", line[current_token + 1]);
       console.log(result ? "GREATER_EQUAL >= null" : "GREATER > null")
       if (result && current_token < line.length) current_token++;
-      break;
+      break;        
       case `"`:
         let start = current_token + 1;
         let string = '';

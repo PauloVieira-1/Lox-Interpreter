@@ -139,27 +139,25 @@ lines.forEach(line => {
         if (isDigit(line[current_token])){
           
           let start_number = current_token;
-          let numberString = line.substring(start_number, current_token);
-
 
           while (start_number < line.length && isDigit(line[current_token])) {
             current_token++;
+
           }
 
-          if (start_number < line.length && line[start_number] === '.' && isDigit(line[start_number + 1])) {
-            current_token++;
-            while (start_number < line.length && isDigit(line[start_number])) {
-              numberString += line[start_number];
+          if (current_token < line.length && line[current_token] === '.') {
+            while (current_token < line.length && isDigit(line[start_number])) {
               current_token++;
             }
           }
 
+          let numberString = line.substring(start_number, current_token);
           let floatNumber = parseFloat(numberString);
           console.log("NUMBER "+numberString+" "+(Number.isInteger(floatNumber)?floatNumber+".0":floatNumber));
         } 
         break;
     }
-  }
+  } 
   current_line++;
 })
 }

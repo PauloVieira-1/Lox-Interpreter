@@ -118,7 +118,6 @@ lines.forEach(line => {
         if (result && current_token < line.length) current_token++;
         break;
       case "<":
-        // console.log(line[current_token + 1])
         result = equalMatch("=", line[current_token + 1]);
         console.log(result ? "LESS_EQUAL <= null" : "LESS < null")
         if (result && current_token < line.length) current_token++;
@@ -158,43 +157,6 @@ lines.forEach(line => {
         console.log(`NUMBER ${number_string} ${float}`);
         break;
 
-
-
-        // let string = '';
-        // current_token++;
-        // let matched = false 
-
-        // while (current_token < line.length) {
-        //   if (line[current_token] === `"`) {
-        //     matched = true
-        //     break;
-        //   }
-        //   string += line[current_token];
-        //   current_token++;
-        // }
-        // current_token++;
-
-        // if (matched){
-        //   console.log(`STRING "${string}" ${string}`);
-        // } else {
-        //   console.error(`[line ${current_line}] Error: Unterminated string.`);
-        //   process.exit(65)
-        // }
-        // break;
-
-
-        // let start = current_token + 1;
-        // let token = '';
-        // for (let i = start; i < line.length; i++) {
-        //     if (line.charAt(i) === `"`) {
-        //         console.log(`STRING "${token}" ${token}`);
-        //         break; 
-        //     } else {
-        //         token += line.charAt(i); 
-        //     }
-        // }
-        break;
-
     }
   }
   current_line++;
@@ -231,7 +193,6 @@ if (fileContent.length !== 0) {
 }
 
 if (hasInvalidToken) {
-  console.log("Error: Invalid token.");
   process.exit(65);
 }
 

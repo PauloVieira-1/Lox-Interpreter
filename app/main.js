@@ -120,12 +120,15 @@ lines.forEach(line => {
         let stringContent = "";
         let start = current_token; // Save starting index of the string
         current_token++;
+        
         while (current_token < line.length && line[current_token] !== `"`) {
           stringContent += line[current_token];
           current_token++;
         }
+        
+        // Correctly handle unterminated string
         if (current_token < line.length && line[current_token] === `"`) {
-          console.log(`STRING "${line.slice(start, current_token + 1)}" ${stringContent}`);
+          console.log(`STRING "${stringContent}" ${stringContent}`); // Remove extra quotes around stringContent
         } else {
           lexicalErrors = true;
           console.error(`[line ${current_line}] Error: Unterminated string.`);
@@ -133,6 +136,7 @@ lines.forEach(line => {
         }
         break;
       }
+      
       
 
       case typeof line[current_token] === "number":

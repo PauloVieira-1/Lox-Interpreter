@@ -153,8 +153,7 @@ lines.forEach(line => {
             }
             current_token = start_decimal;
           }
-          
-        
+
 
           let numberString = line.substring(start_number, current_token);
           let floatNumber = parseFloat(numberString);

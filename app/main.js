@@ -40,8 +40,7 @@ const CheckErrors = (lines) => {
     for (let j = 0; j < line.length; j++) {
       if (invalidTokens.includes(line[j])) {
         console.error(`[line ${current_line}] Error: Unexpected character: ${line[j]}`);
-        hasInvalidToken = true
-        break;
+        hasInvalidToken = true;
     }
   }
   current_line++;

@@ -51,7 +51,7 @@ const CheckErrors = (lines) => {
           }
           current_token++;
         }
-        if (!matched) {
+        if (!matched && line[j] === '"') {
           lexicalErrors = true;
           console.error(`[line ${current_line}] Error: Unterminated string.`);
         }

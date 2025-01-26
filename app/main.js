@@ -208,7 +208,7 @@ const isDigit = (c) => {
 const isAlpha = (c) => {
   return (c >= 'a' && c <= 'z') ||
     (c >= 'A' && c <= 'Z') ||
-    c == '_' || c ==  " "
+    c == '_';
 }
 const isAlphaNumeric = (c) => {
   return isAlpha(c) || isDigit(c);

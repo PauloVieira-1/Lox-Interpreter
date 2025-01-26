@@ -160,8 +160,12 @@ lines.forEach(line => {
           
             let text = line.substring(current_token, start);
             let reserved_word = keywords.get(text);
-          
-            console.log(`IDENTIFIER ${reserved_word || text} null`);
+
+            if (reserved_word) {
+              console.log(`${reserved_word} ${text} null`);
+            }else{
+              console.log(`IDENTIFIER ${text} null`);
+            }
             current_token = start - 1;
         }
         break;

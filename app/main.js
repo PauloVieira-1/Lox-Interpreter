@@ -152,7 +152,7 @@ lines.forEach(line => {
           current_token--;
         } else if (isAlpha(line[current_token])) {
             let start = current_token;
-            while (start < line.length && isAlphaNumeric(line[current_token])) {
+            while (start < line.length && isAlphaNumeric(line[current_token]) && line[current_token] !== " ") {
               start++;
             }
           

@@ -128,7 +128,7 @@ lines.forEach(line => {
           hasInvalidToken = true
         }
 
-        current_token = start - 1;
+        current_token = start;
         break;
       default:
         if (isDigit(line[current_token])){

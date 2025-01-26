@@ -1,6 +1,23 @@
 import fs from "fs";
 
-
+const keywords = new Map([
+  ["and", "AND"],
+  ["class", "CLASS"],
+  ["else", "ELSE"],
+  ["false", "FALSE"],
+  ["for", "FOR"],
+  ["fun", "FUN"],
+  ["if", "IF"],
+  ["nil", "NIL"],
+  ["or", "OR"],
+  ["print", "PRINT"],
+  ["return", "RETURN"],
+  ["super", "SUPER"],
+  ["this", "THIS"],
+  ["true", "TRUE"],
+  ["var", "VAR"],
+  ["while", "WHILE"]
+]);
 
 
 /// Opening File ///
@@ -24,30 +41,6 @@ const fileContent = fs.readFileSync(filename, "utf8");
 
 /// END ///
 
-
-
-
-
-/**
- * 
- * @param {Array} lines 
- */
-
-const CheckErrors = (lines) => { 
-  let current_line = 1 
-  lines.forEach(line => {
-    let matched = false;
-    for (let j = 0; j < line.length; j++) {
-      if (invalidTokens.includes(line[j])) {
-        console.error(`[line ${current_line}] Error: Unexpected character: ${line[j]}`);
-        hasInvalidToken = true;
-    }
-  }
-  current_line++;
-
-});
-  
-}
 
 /**
  * 
@@ -157,7 +150,24 @@ lines.forEach(line => {
           let floatNumber = parseFloat(numberString);
           console.log("NUMBER "+numberString+" "+(Number.isInteger(floatNumber)?floatNumber+".0":floatNumber));
           current_token--;
-        } 
+        } else if (isAlpha(line[current_token])) {
+            let start = current_token;
+            while (start < line.length && isAlphaNumeric(line[current_token])) {
+              start++;
+            }
+          
+            let text = line.substring(current_token, start);
+          
+            if (keywords.get(text) != null) {
+              let reserved_word = keywords.get(text);
+              console.log(`IDENTIFIER ${reserved_word} null`);
+            } else {
+              console.log(`IDENTIFIER ${text} null`);
+            }
+
+            current_token = start - 1;
+        }
+    
         break;
     }
 
@@ -165,7 +175,6 @@ lines.forEach(line => {
   current_line++;
 })
 }
-
 
 /**
  * @param {String} token 
@@ -175,10 +184,36 @@ lines.forEach(line => {
 const equalMatch = (token, nextPlace) => {
   return  nextPlace === token;
 }
+/**
+ * 
+ * @param {Array} lines 
+ */
+const CheckErrors = (lines) => { 
+  let current_line = 1 
+  lines.forEach(line => {
+    for (let j = 0; j < line.length; j++) {
+      if (invalidTokens.includes(line[j])) {
+        console.error(`[line ${current_line}] Error: Unexpected character: ${line[j]}`);
+        hasInvalidToken = true;
+    }
+  }
+  current_line++;
 
+});
+  
+}
 const isDigit = (c) => {
   return c >= '0' && c <= '9';
 }
+const isAlpha = (c) => {
+  return (c >= 'a' && c <= 'z') ||
+    (c >= 'A' && c <= 'Z') ||
+    c == '_';
+}
+const isAlphaNumeric = (c) => {
+  return isAlpha(c) || isDigit(c);
+}
+
 
 /// TOKENIZING FILE 
 

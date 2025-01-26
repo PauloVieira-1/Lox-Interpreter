@@ -127,6 +127,8 @@ lines.forEach(line => {
           console.error(`[line ${current_line}] Error: Unterminated string.`);
           hasInvalidToken = true
         }
+
+        current_token = start - 1;
         break;
       default:
         if (isDigit(line[current_token])){
@@ -152,22 +154,16 @@ lines.forEach(line => {
           current_token--;
         } else if (isAlpha(line[current_token])) {
             let start = current_token;
-            while (start < line.length && isAlphaNumeric(line[start]) && line[start] !== " ") {
-              start++;
+            while (start < line.length && isAlphaNumeric(line[start])) {
+                start++;
             }
           
             let text = line.substring(current_token, start);
+            let reserved_word = keywords.get(text);
           
-            if (keywords.get(text) != null) {
-              let reserved_word = keywords.get(text);
-              console.log(`IDENTIFIER ${reserved_word} null`);
-            } else {
-              console.log(`IDENTIFIER ${text} null`);
-            }
-
+            console.log(`IDENTIFIER ${reserved_word || text} null`);
             current_token = start - 1;
         }
-    
         break;
     }
 

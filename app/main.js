@@ -19,13 +19,259 @@ const keywords = new Map([
   ["while", "WHILE"]
 ]);
 
+class Token {
+  constructor (type, lexeme, literal, line) {
+    this.type = type;
+    this.lexeme = lexeme;
+    this.literal = literal;
+    this.line = line
+  }
 
-/// Opening File ///
+  toString () {
+    return `${this.type} ${this.lexeme} ${this.literal}`
+  }
+
+}
+
+
+class LoxError {
+  constructor (line, message, char) {
+    this.line = line;
+    this.message = message;
+    this.char = char
+  }
+
+  error(){
+    console.error(`[line ${this.line}] Error: ${this.message}`)
+    hasError = true
+  }
+
+  invalidChar(){
+    console.error(`[line ${this.line}] Error: Unexpected character: ${this.char}`)
+    hasError = true
+  }
+
+
+}
+
+
+class Scanner {
+  constructor(source) {
+    this.source = source;
+    this.tokens = [];
+    this.start = 0;
+    this.current = 0;
+    this.line = 1; 
+  }
+  
+  isAtEnd() {
+    return this.current >= this.source.length;
+  }
+
+  scanTokens() {
+    while (!this.isAtEnd()) {
+      this.start = this.current;
+      this.scanToken();
+
+    }
+    this.tokens.push(new Token("EOF", "", null, this.line));
+    return this.tokens;
+  }
+
+  scanToken(){
+    let c = this.advance()
+
+    switch(c) {
+      case "(":
+        this.addToken("LEFT_PAREN", c);
+        break;
+      case ")":
+        this.addToken("RIGHT_PAREN", c);
+        break;
+      case "{":
+        this.addToken("LEFT_BRACE", c);
+        break;
+      case "}":
+        this.addToken("RIGHT_BRACE", c);
+        break;
+      case ",":
+        this.addToken("COMMA", c);
+        break;
+      case ".":
+        this.addToken("DOT", c);
+        break;
+      case "-":
+        this.addToken("MINUS", c);
+        break;
+      case "+":
+        this.addToken("PLUS", c);
+        break;
+      case ";":
+        this.addToken("SEMICOLON", c);
+        break;
+      case "*":
+        this.addToken("STAR", c);
+        break;  
+      case "\n":
+        this.line++;
+        break;
+      case " ":
+        break;
+      case `"`:  
+        this.string();
+        break; 
+      case "/":
+        if (this.equalMatch("/")) {
+          while (this.nextChar() !== "\n" && !this.isAtEnd()) this.advance();
+        } else {
+          this.addToken("SLASH", c);
+        }
+        break;
+      case "!":
+        if (this.equalMatch("=")) {
+          this.addToken("BANG_EQUAL", c);
+        } else {
+          this.addToken("BANG", c);
+        }
+        break;
+      case "=":
+        if (this.equalMatch("=")) {
+          this.addToken("EQUAL_EQUAL", c);
+        } else {
+          this.addToken("EQUAL", c);
+        }
+        break;
+      case "<":
+        if (this.equalMatch("=")) {
+          this.addToken("LESS_EQUAL", c);
+        } else {
+          this.addToken("LESS", c);
+        }
+        break;
+      case ">": 
+        if (this.equalMatch("=")) {
+          this.addToken("GREATER_EQUAL", c);
+        } else {
+          this.addToken("GREATER", c);
+        }
+        break;        
+      default:
+      if (this.isDigit(c)) {
+          this.digit()
+        } else if (this.isAlpha(c)) {
+          this.identifier()
+        } else {
+            new LoxError(this.line, "Unexpected character.", c).invalidChar()
+        }
+
+  }
+}
+
+  addToken(type, lexeme, literal = null) {
+    let toAdd = new Token(type, lexeme, literal, this.line);
+    this.tokens.push(toAdd);
+  }
+
+  advance(){
+    if (!this.isAtEnd()) {
+      return this.source[this.current++];
+    }
+  }
+
+  equalMatch(expected){
+    if (this.isAtEnd()) return false;
+    if (this.nextChar() != expected) return false;
+
+    this.current++;
+    return true;
+  }
+
+  nextChar(){
+    return this.source[this.current + 1] || '';
+  }
+
+  string(){
+    while (this.nextChar() != `"`) {
+      if (this.nextChar() === "\n") break;
+      this.advance()
+    }
+
+    if (this.nextChar() !== `"`) {
+      new LoxError(this.line, "Unterminated string", null).error();
+    } else {
+      let string = this.source.substring(this.start + 1, this.current + 1) 
+      this.addToken("STRING", `"${string}"`, string)
+    }
+
+    this.advance()
+    this.advance()
+    
+  }
+  
+  isDigit(c) {
+    return c >= '0' && c <= '9';
+  }
+  digit(){
+      while (this.isDigit(this.source[this.current])) {
+        this.advance();
+      }
+
+      if (this.source[this.current] === '.') {
+        let start_decimal = this.current + 1;
+
+        while (start_decimal < this.source.length && isDigit(this.source[start_decimal])) {
+          start_decimal++;
+        }
+        this.current = start_decimal;
+      }
+
+      const numberString = this.source.substring(this.start, this.current);
+      const lexeme = parseFloat(numberString);
+      const value = Number.isInteger(lexeme) ? lexeme + ".0":lexeme
+
+      if (isNaN(value)) {
+        LoxError.error(this.line, "Invalid number format");
+      } else {
+        this.addToken("NUMBER", lexeme, value);
+      }
+
+    }
+
+    identifier(){
+      while (this.isAlphaNumeric(this.source[this.current])) {
+        this.advance();
+      }
+
+      const text = this.source.substring(this.start, this.current);
+
+        let reserved_word = keywords.get(text);
+            if (reserved_word) {
+              this.addToken(reserved_word, text);
+            }else{
+              this.addToken("IDENTIFIER", text);
+
+            }
+
+    }
+  
+
+  isAlpha (c){
+    return (c >= 'a' && c <= 'z') ||
+      (c >= 'A' && c <= 'Z') ||
+      c == '_';
+  }
+
+  isAlphaNumeric(c) {
+    return this.isAlpha(c) || this.isDigit(c);
+  }
+
+}
+
 
 const args = process.argv.slice(2); 
 
 if (args.length < 2) {
-  console.error("Usage: ./your_program.sh tokenize <filename>");
+  console.error("Usage: ./your_program tokenize <filename>");
   process.exit(1);
 } 
 
@@ -38,201 +284,23 @@ if (command !== "tokenize") {
 
 const filename = args[1];
 const fileContent = fs.readFileSync(filename, "utf8");
+let hasError = false
 
-/// END ///
-
-
-/**
- * 
- * @param {Array} token 
- */
-const logTokens = (lines) => {
-let current_line = 1
-lines.forEach(line => {
-    
-  for (let current_token = 0; current_token < line.length; current_token++) {
-    
-    let result;
-    switch(line[current_token]) {
-      case "(":
-        console.log("LEFT_PAREN ( null");
-        break;
-      case ")":
-        console.log("RIGHT_PAREN ) null")
-        break;
-      case "{":
-        console.log("LEFT_BRACE { null")
-        break;
-      case "}":
-        console.log("RIGHT_BRACE } null")
-        break;
-      case ",":
-        console.log("COMMA , null")
-        break;
-      case ".":
-        console.log("DOT . null")
-        break;
-      case "-":
-        console.log("MINUS - null")
-        break;
-      case "+":
-        console.log("PLUS + null")
-        break;
-      case ";":
-        console.log("SEMICOLON ; null")
-        break;
-      case "*":
-        console.log("STAR * null")
-        break;
-      case "/":
-        result = equalMatch("/", line[current_token + 1]);
-        if (!result) console.log("SLASH / null")
-        if (result && current_token < line.length) current_token += line.length - current_token
-        break;
-      case "!":
-        result = equalMatch("=", line[current_token + 1]);
-        console.log(result ? "BANG_EQUAL != null" : "BANG ! null")
-        if (result && current_token < line.length) current_token++;
-        break;
-      case "=":
-        result = equalMatch("=", line[current_token + 1]);
-        console.log(result ? "EQUAL_EQUAL == null" : "EQUAL = null")
-        if (result && current_token < line.length) current_token++;
-        break;
-      case "<":
-        // console.log(line[current_token + 1])
-        result = equalMatch("=", line[current_token + 1]);
-        console.log(result ? "LESS_EQUAL <= null" : "LESS < null")
-        if (result && current_token < line.length) current_token++;
-        break;
-      case ">": 
-      result = equalMatch("=", line[current_token + 1]);
-      console.log(result ? "GREATER_EQUAL >= null" : "GREATER > null")
-      if (result && current_token < line.length) current_token++;
-      break;        
-      case `"`:
-        let start = current_token + 1;
-        let string = '';
-
-        while (start < line.length && line[start] !== `"`) {
-          if (line[start] === "\n") break;
-          string += line[start];
-          start++;
-        }
-        
-        if (start < line.length && line[start] === `"`) {
-          current_token = start;
-          console.log(`STRING "${string}" ${string}`);
-        } else {
-          console.error(`[line ${current_line}] Error: Unterminated string.`);
-          hasInvalidToken = true
-        }
-
-        current_token = start;
-        break;
-      default:
-        if (isDigit(line[current_token])){
-          
-          let start_number = current_token;
-
-          while (current_token < line.length && isDigit(line[current_token])) {
-            current_token++;
-          }
-
-          if (current_token < line.length && line[current_token] === '.') {
-            let start_decimal = current_token + 1;
-
-            while (start_decimal < line.length && isDigit(line[start_decimal])) {
-              start_decimal++;
-            }
-            current_token = start_decimal;
-          }
-
-          let numberString = line.substring(start_number, current_token);
-          let floatNumber = parseFloat(numberString);
-          console.log("NUMBER "+numberString+" "+(Number.isInteger(floatNumber)?floatNumber+".0":floatNumber));
-          current_token--;
-        } else if (isAlpha(line[current_token])) {
-            let start = current_token;
-            while (start < line.length && isAlphaNumeric(line[start])) {
-                start++;
-            }
-          
-            let text = line.substring(current_token, start);
-            let reserved_word = keywords.get(text);
-
-            if (reserved_word) {
-              console.log(`${reserved_word} ${text} null`);
-            }else{
-              console.log(`IDENTIFIER ${text} null`);
-            }
-            current_token = start - 1;
-        }
-        break;
-    }
-
-  } 
-  current_line++;
-})
-}
-
-/**
- * @param {String} token 
- * @param {String} nextPlace 
- * @returns {Boolean}
- */
-const equalMatch = (token, nextPlace) => {
-  return  nextPlace === token;
-}
-/**
- * 
- * @param {Array} lines 
- */
-const CheckErrors = (lines) => { 
-  let current_line = 1 
-  lines.forEach(line => {
-    for (let j = 0; j < line.length; j++) {
-      if (invalidTokens.includes(line[j])) {
-        console.error(`[line ${current_line}] Error: Unexpected character: ${line[j]}`);
-        hasInvalidToken = true;
-    }
-  }
-  current_line++;
-
-});
-  
-}
-const isDigit = (c) => {
-  return c >= '0' && c <= '9';
-}
-const isAlpha = (c) => {
-  return (c >= 'a' && c <= 'z') ||
-    (c >= 'A' && c <= 'Z') ||
-    c == '_';
-}
-const isAlphaNumeric = (c) => {
-  return isAlpha(c) || isDigit(c);
-}
-
-
-/// TOKENIZING FILE 
-
-const invalidTokens = ["$", "#", "@", "%"];
-let hasInvalidToken = false 
  
 if (fileContent.length !== 0) {
   
   let lines = fileContent.split("\n");
 
-  CheckErrors(lines)
-  logTokens(lines)
-  
-  console.log("EOF  null")
+  const scanner = new Scanner(lines.join('\n'));
+  const tokens = scanner.scanTokens();
 
-  } else {
-  console.log("EOF  null");
+  tokens.forEach(token => console.log(token.toString()));
+  
+} else {
+  console.log("EOF null");
 }
 
-if (hasInvalidToken) {
+if (hasError) {
   process.exit(65);
 }
+

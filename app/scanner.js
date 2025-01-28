@@ -33,7 +33,6 @@ class Token {
 
 }
 
-
 class LoxError {
   constructor (line, message, char) {
     this.line = line;
@@ -43,14 +42,11 @@ class LoxError {
 
   error(){
     console.error(`[line ${this.line}] Error: ${this.message}`)
-    hasError = true
   }
 
   invalidChar(){
     console.error(`[line ${this.line}] Error: Unexpected character: ${this.char}`)
-    hasError = true
   }
-
 
 }
 
@@ -62,6 +58,7 @@ class Scanner {
     this.start = 0;
     this.current = 0;
     this.line = 1; 
+    this.hasError = false;
   }
   
   isAtEnd() {
@@ -162,6 +159,7 @@ class Scanner {
           this.identifier()
         } else {
             new LoxError(this.line, "Unexpected character.", c).invalidChar()
+            this.hasError = true
         }
 
   }
@@ -198,6 +196,7 @@ class Scanner {
 
     if (this.nextChar() !== `"`) {
       new LoxError(this.line, "Unterminated string", null).error();
+      this.hasError = true
     } else {
       let string = this.source.substring(this.start + 1, this.current + 1) 
       this.addToken("STRING", `"${string}"`, string)
@@ -231,6 +230,7 @@ class Scanner {
 
       if (isNaN(value)) {
         LoxError.error(this.line, "Invalid number format");
+        this.hasError = true
       } else {
         this.addToken("NUMBER", lexeme, value);
       }
@@ -284,8 +284,6 @@ if (command !== "tokenize") {
 
 const filename = args[1];
 const fileContent = fs.readFileSync(filename, "utf8");
-let hasError = false
-
  
 if (fileContent.length !== 0) {
   
@@ -293,14 +291,17 @@ if (fileContent.length !== 0) {
 
   const scanner = new Scanner(lines.join('\n'));
   const tokens = scanner.scanTokens();
+  const errors = scanner.hasError
 
   tokens.forEach(token => console.log(token.toString()));
+
+  if (errors) {
+    process.exit(65);
+  }
+  
   
 } else {
   console.log("EOF null");
 }
 
-if (hasError) {
-  process.exit(65);
-}
-
+export default Scanner

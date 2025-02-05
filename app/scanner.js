@@ -120,11 +120,7 @@ class Scanner {
 				}
 				break;
 			case "!":
-				if (this.equalMatch("=")) {
-					this.addToken("BANG_EQUAL", c);
-				} else {
-					this.addToken("BANG", c);
-				}
+				this.addToken(this.equalMatch("=") ? "BANG_EQUAL" : "BANG", c);
 				break;
 			case "=":
 				if (this.equalMatch("=")) {
@@ -135,16 +131,16 @@ class Scanner {
 				break;
 			case "<":
 				if (this.equalMatch("=")) {
-					this.addToken("LESS_EQUAL", c);
+					this.addToken("LESS_EQUAL", "<=");
 				} else {
-					this.addToken("LESS", c);
+					this.addToken("LESS", "<");
 				}
 				break;
 			case ">":
 				if (this.equalMatch("=")) {
-					this.addToken("GREATER_EQUAL", c);
+					this.addToken("GREATER_EQUAL", ">=");
 				} else {
-					this.addToken("GREATER", c);
+					this.addToken("GREATER", ">");
 				}
 				break;
 			default:

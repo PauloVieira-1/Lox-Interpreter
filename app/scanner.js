@@ -73,6 +73,7 @@ class Scanner {
 
 	scanToken() {
 		let c = this.advance();
+		console.log(c);
 
 		switch (c) {
 			case "(":
@@ -128,16 +129,13 @@ class Scanner {
 				}
 				break;
 			case "=":
-				this.current--;
 				if (this.equalMatch("=")) {
 					this.addToken("EQUAL_EQUAL", "==");
-					this.advance();
 				} else {
 					this.addToken("EQUAL", "=");
 				}
 				break;
 			case "<":
-				this.current--;
 				if (this.equalMatch("=")) {
 					this.addToken("LESS_EQUAL", c);
 				} else {
@@ -145,7 +143,6 @@ class Scanner {
 				}
 				break;
 			case ">":
-				this.current--;
 				if (this.equalMatch("=")) {
 					this.addToken("GREATER_EQUAL", c);
 				} else {

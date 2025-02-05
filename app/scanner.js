@@ -120,7 +120,11 @@ class Scanner {
 				}
 				break;
 			case "!":
-				this.addToken(this.equalMatch("=") ? "BANG_EQUAL" : "BANG", c);
+				if (this.equalMatch("=")) {
+					this.addToken("BANG_EQUAL", "!=");
+				} else {
+					this.addToken("BANG", "!");
+				}
 				break;
 			case "=":
 				if (this.equalMatch("=")) {

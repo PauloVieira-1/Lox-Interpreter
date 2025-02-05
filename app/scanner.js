@@ -174,13 +174,12 @@ class Scanner {
 	equalMatch(expected) {
 		if (this.isAtEnd()) return false;
 		if (this.nextChar() != expected) return false;
-
 		this.current++;
 		return true;
 	}
 
 	nextChar() {
-		return this.source[this.current + 1] || "";
+		return this.source[this.current] || "";
 	}
 
 	string() {

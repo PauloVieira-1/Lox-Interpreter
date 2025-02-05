@@ -157,7 +157,7 @@ class Scanner {
 					new LoxError(
 						this.line,
 						"Unexpected character.",
-						this.source[this.current - 1]
+						this.source[this.current - 2]
 					).invalidChar();
 					this.hasError = true;
 				}

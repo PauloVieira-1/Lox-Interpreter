@@ -33,7 +33,7 @@ if (fileContent.length !== 0) {
 		const parser = new Parser(tokens);
 		try {
 			const expr = parser.parse();
-			console.log(expr);
+			// console.log(expr);
 			// const expression = new BinaryExpression(
 			// 	new Literal(2.0),
 			// 	new Token("STAR", "+", null, 1),

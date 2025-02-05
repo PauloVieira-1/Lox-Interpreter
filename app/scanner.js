@@ -112,6 +112,8 @@ class Scanner {
 			case `"`:
 				this.string();
 				break;
+			case "|":
+				break;
 			case "/":
 				if (this.equalMatch("/")) {
 					while (this.nextChar() !== "\n") this.advance();

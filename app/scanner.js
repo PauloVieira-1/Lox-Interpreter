@@ -212,7 +212,7 @@ class Scanner {
 
 			while (
 				start_decimal < this.source.length &&
-				isDigit(this.source[start_decimal])
+				this.isDigit(this.source[start_decimal])
 			) {
 				start_decimal++;
 			}
@@ -222,13 +222,9 @@ class Scanner {
 		const numberString = this.source.substring(this.start, this.current);
 		const lexeme = parseFloat(numberString);
 		const value = Number.isInteger(lexeme) ? lexeme + ".0" : lexeme;
-
 		if (isNaN(value)) {
-			LoxError.error(this.line, "Invalid number format");
-			this.hasError = true;
 		} else {
 			this.addToken("NUMBER", lexeme, value);
-		}
 	}
 
 	identifier() {

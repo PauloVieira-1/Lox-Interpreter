@@ -225,6 +225,7 @@ class Scanner {
 		if (isNaN(value)) {
 		} else {
 			this.addToken("NUMBER", lexeme, value);
+		}
 	}
 
 	identifier() {

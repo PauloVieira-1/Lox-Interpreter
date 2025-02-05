@@ -131,6 +131,7 @@ class Scanner {
 				this.current--;
 				if (this.equalMatch("=")) {
 					this.addToken("EQUAL_EQUAL", "==");
+					this.advance();
 				} else {
 					this.addToken("EQUAL", "=");
 				}

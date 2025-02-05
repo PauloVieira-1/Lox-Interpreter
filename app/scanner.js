@@ -106,7 +106,6 @@ class Scanner {
 				break;
 			case "\n":
 				this.line++;
-				this.advance();
 				break;
 			case " ":
 				break;

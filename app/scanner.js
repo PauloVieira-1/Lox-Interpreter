@@ -220,11 +220,12 @@ class Scanner {
 			this.current = start_decimal;
 		}
 
-		const numberString = this.source.substring(this.start, this.current);
-		const lexeme = parseFloat(numberString);
-		const value = Number.isInteger(lexeme) ? lexeme + ".0" : lexeme;
-		if (isNaN(value)) {
-		} else {
+		const lexeme = this.source.substring(this.start, this.current);
+		const numberValue = parseFloat(lexeme);
+		const value = Number.isInteger(numberValue)
+			? numberValue.toFixed(1)
+			: numberValue;
+		if (!isNaN(numberValue)) {
 			this.addToken("NUMBER", lexeme, value);
 		}
 	}

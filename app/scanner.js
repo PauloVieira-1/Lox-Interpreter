@@ -193,7 +193,7 @@ class Scanner {
 		}
 
 		if (this.nextChar() !== `"`) {
-			new LoxError(this.line, "Unterminated string", null).error();
+			new LoxError(this.line, "Unterminated string.", null).error();
 			this.hasError = true;
 		} else {
 			let string = this.source.substring(this.start + 1, this.current + 1);

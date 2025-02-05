@@ -37,14 +37,18 @@ class Visitor {
 class Parenthesizer {
 	parenthesize = (visitor, name, ...expressions) => {
 		const elements = [];
+		// console.log(expressions);
 
 		for (const exp of expressions) {
+			// console.log(exp);
 			if (!(exp instanceof Token)) {
 				elements.push(
 					Number.isInteger(exp.value)
 						? `${exp.accept(visitor)}` + ".0 "
 						: `${exp.accept(visitor)} `
 				);
+			} else {
+				elements.push(` ${exp.lexeme} `);
 			}
 		}
 
@@ -152,7 +156,7 @@ class Parser {
 	}
 	equality() {
 		let expr = this.comparison();
-		// console.log("Previous token: ", this.previous());
+
 		while (this.match("BANG_EQUAL", "EQUAL_EQUAL")) {
 			const operator = this.previous();
 			const right = this.comparison();
@@ -190,7 +194,7 @@ class Parser {
 			const operator = this.previous();
 			const right = this.unary();
 
-			expr = new UnaryExpression(right, operator);
+			expr = new BinaryExpression(expr, operator, right);
 		}
 
 		return expr;
@@ -250,8 +254,6 @@ export {
 	UnaryExpression,
 	Grouping
 };
-
-// Recursive decennt parser with a top down appraoch
 
 //! PARSING RULES
 

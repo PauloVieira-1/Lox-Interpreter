@@ -33,17 +33,9 @@ if (fileContent.length !== 0) {
 		const parser = new Parser(tokens);
 		try {
 			const expr = parser.parse();
-			// console.log(expr);
-			// const expression = new BinaryExpression(
-			// 	new Literal(2.0),
-			// 	new Token("STAR", "+", null, 1),
-			// 	new Literal(3.0)
-			// );
-
-			// const parsedExpression = expression.accept(new Visitor());
 			const parsed2 = expr.accept(new Visitor());
 
-			// console.log(parsedExpression);
+			// console.log(expr);
 			console.log(parsed2);
 		} catch (error) {
 			console.error("Error during parsing: ", error);

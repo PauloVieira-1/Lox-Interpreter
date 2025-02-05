@@ -136,6 +136,7 @@ class Scanner {
 				}
 				break;
 			case "<":
+				this.current--;
 				if (this.equalMatch("=")) {
 					this.addToken("LESS_EQUAL", c);
 				} else {
@@ -143,6 +144,7 @@ class Scanner {
 				}
 				break;
 			case ">":
+				this.current--;
 				if (this.equalMatch("=")) {
 					this.addToken("GREATER_EQUAL", c);
 				} else {

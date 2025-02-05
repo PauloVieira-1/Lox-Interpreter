@@ -179,13 +179,17 @@ class Scanner {
 	}
 
 	nextChar() {
+		// console.log(this.current);
 		return this.source[this.current + 1] || "";
 	}
 
 	string() {
-		while (this.nextChar() != `"`) {
-			if (this.nextChar() === "\n") break;
+		while (this.nextChar() != `"` && this.nextChar() != "\n") {
+			if (this.isAtEnd()) {
+				break;
+			}
 			this.advance();
+			// console.log(this.current);
 		}
 
 		if (this.nextChar() !== `"`) {

@@ -128,6 +128,7 @@ class Scanner {
 				}
 				break;
 			case "=":
+				this.current--;
 				if (this.equalMatch("=")) {
 					this.addToken("EQUAL_EQUAL", "==");
 				} else {
@@ -174,7 +175,7 @@ class Scanner {
 	equalMatch(expected) {
 		if (this.isAtEnd()) return false;
 		if (this.nextChar() != expected) return false;
-		// this.current++;
+		this.current++;
 		return true;
 	}
 

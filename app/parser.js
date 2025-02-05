@@ -1,6 +1,6 @@
 // The visitor design pattern -----> https://refactoring.guru/design-patterns/visitor
 
-import { Token } from "./scanner.js";
+import { Token, LoxError } from "./scanner.js";
 
 class Visitor {
 	constructor() {

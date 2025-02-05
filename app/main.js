@@ -28,7 +28,7 @@ if (fileContent.length !== 0) {
 
 	if (command === "tokenize") {
 		tokens.forEach(token => console.log(token.toString()));
-		console.log(tokens);
+		// console.log(tokens);
 	} else if (command === "parse") {
 		const parser = new Parser(tokens);
 		try {

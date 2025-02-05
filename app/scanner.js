@@ -179,7 +179,7 @@ class Scanner {
 
 	nextChar() {
 		// console.log(this.current);
-		return this.source[this.current + 1] || "";
+		return this.source[this.current + 1];
 	}
 
 	string() {

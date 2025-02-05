@@ -73,8 +73,6 @@ class Scanner {
 
 	scanToken() {
 		let c = this.advance();
-		console.log(c);
-
 		switch (c) {
 			case "(":
 				this.addToken("LEFT_PAREN", c);
@@ -174,7 +172,7 @@ class Scanner {
 
 	equalMatch(expected) {
 		if (this.isAtEnd()) return false;
-		if (this.nextChar() != expected) return false;
+		if (this.source[this.current] != expected) return false;
 		this.current++;
 		return true;
 	}

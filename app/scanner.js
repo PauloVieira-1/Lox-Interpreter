@@ -129,6 +129,7 @@ class Scanner {
 				break;
 			case "=":
 				if (this.equalMatch("=")) {
+					console.log("TEST");
 					this.addToken("EQUAL_EQUAL", "==");
 				} else {
 					this.addToken("EQUAL", c);

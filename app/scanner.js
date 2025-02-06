@@ -26,7 +26,12 @@ class Token {
 	}
 
 	toString() {
-		return `${this.type} ${this.lexeme} ${this.literal}`.replace("  ", " ");
+		return (
+			`${this.type}` +
+			" " +
+			`${this.lexeme === "" ? this.lexeme : this.lexeme + " "}` +
+			`${this.literal}`
+		);
 	}
 }
 
@@ -67,7 +72,7 @@ class Scanner {
 			this.start = this.current;
 			this.scanToken();
 		}
-		this.tokens.push(new Token("EOF", ``, null, this.line));
+		this.tokens.push(new Token("EOF", "", null, this.line));
 		return this.tokens;
 	}
 

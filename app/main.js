@@ -50,7 +50,6 @@ if (fileContent.length !== 0) {
 	}
 
 	if (errors) {
-		console.log(process);
 		process.exit(65);
 	}
 } else {

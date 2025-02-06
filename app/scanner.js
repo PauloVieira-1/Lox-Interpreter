@@ -67,7 +67,7 @@ class Scanner {
 			this.start = this.current;
 			this.scanToken();
 		}
-		this.tokens.push(new Token("EOF", null, null, this.line));
+		this.tokens.push(new Token("EOF", ``, null, this.line));
 		return this.tokens;
 	}
 

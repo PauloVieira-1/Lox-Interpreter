@@ -221,7 +221,7 @@ class Parser {
 		// console.log("TEST: " + this.match("NUMBER, STRING"));
 
 		if (this.match("LEFT_PAREN")) {
-			let expr = expression();
+			let expr = this.expression();
 			// consume(RIGHT_PAREN, "Expect ')' after expression.");
 			return new Grouping(expr);
 		}

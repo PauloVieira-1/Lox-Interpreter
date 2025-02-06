@@ -118,7 +118,9 @@ class Scanner {
 				break;
 			case "/":
 				if (this.equalMatch("/")) {
-					while (this.nextChar() !== "\n") this.advance();
+					while (this.nextChar() !== "\n" && !this.isAtEnd()) {
+						this.advance();
+					}
 					if (this.nextChar() == "\n") this.advance();
 				} else {
 					this.addToken("SLASH", c);

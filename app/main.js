@@ -24,6 +24,10 @@ if (fileContent.length !== 0) {
 
 	const scanner = new Scanner(lines.join("\n"));
 	const tokens = scanner.scanTokens();
+
+	if (scanner.hasError) {
+		process.exit(65);
+	}
 	let errors = false;
 
 	if (command === "tokenize") {
@@ -46,7 +50,7 @@ if (fileContent.length !== 0) {
 	}
 
 	if (errors) {
-		console.log(process.exitCode);
+		console.log(process);
 		process.exit(65);
 	}
 } else {

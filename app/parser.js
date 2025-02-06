@@ -143,8 +143,6 @@ class Parser {
 
 	check(sign) {
 		if (this.isAtEnd()) return false;
-		// console.log(this.next().type);
-		// console.log(sign);
 		return this.next().type === sign;
 	}
 
@@ -153,7 +151,6 @@ class Parser {
 	}
 	equality() {
 		let expr = this.comparison();
-
 		while (this.match("BANG_EQUAL", "EQUAL_EQUAL")) {
 			const operator = this.previous();
 			const right = this.comparison();
@@ -178,7 +175,6 @@ class Parser {
 		while (this.match("PLUS", "MINUS")) {
 			const operator = this.previous();
 			const right = this.factor();
-			// console.log(right);
 			expr = new BinaryExpression(expr, operator, right);
 		}
 
@@ -190,7 +186,6 @@ class Parser {
 		while (this.match("SLASH", "STAR")) {
 			const operator = this.previous();
 			const right = this.unary();
-
 			expr = new BinaryExpression(expr, operator, right);
 		}
 
@@ -215,33 +210,25 @@ class Parser {
 			return new Literal(this.previous().literal);
 		}
 
-		// console.log("TEST: " + this.match("NUMBER, STRING"));
-
 		if (this.match("LEFT_PAREN")) {
 			let expr = this.expression();
-			// consume(RIGHT_PAREN, "Expect ')' after expression.");
+			this.consume("RIGHT_PAREN", "Expected ')' after expression.");
 			return new Grouping(expr);
 		}
-		// console.log("pass");
+	}
+
+	consume(type, message) {
+		if (this.check(type)) {
+			return this.advance();
+		} else {
+			throw new LoxError(this.previous().line, message, null);
+		}
 	}
 
 	parse() {
 		return this.expression();
 	}
 }
-
-// function test() {
-// let expression = new BinaryExpression(
-// 	new Literal(2.0),
-// 	new Token("STAR", "+", null, 1),
-// 	new Literal(3.0)
-// );
-
-// 	let visitor = new Visitor();
-// 	console.log(expression.accept(visitor));
-// }
-
-// test();
 
 export {
 	Parser,

@@ -37,11 +37,14 @@ class Visitor {
 class Parenthesizer {
 	parenthesize = (visitor, name, ...expressions) => {
 		const elements = [];
-		// console.log(expressions);
 
 		for (const exp of expressions) {
+			// console.log("EXP :", exp);
 			if (!(exp instanceof Token)) {
 				elements.push(`${exp.accept(visitor)} `);
+			} else if (exp === undefined) {
+				new LoxError("undefined", "Expression is undefined", null).error();
+				process.exit(65);
 			} else {
 				const lexeme = isNaN(parseInt(exp.lexeme))
 					? exp.lexeme
@@ -109,6 +112,7 @@ class Parser {
 	constructor(tokens) {
 		this.tokens = tokens || [];
 		this.current = 0;
+		this.hasError = false;
 	}
 
 	isAtEnd() {
@@ -129,9 +133,7 @@ class Parser {
 
 	match(...types) {
 		let typesArray = [...types];
-		// console.log("Types array: ", typesArray);
 		for (let type of typesArray) {
-			// console.log("Matching token type: ", type);
 			if (this.check(type) == true) {
 				this.advance();
 				return true;
@@ -152,10 +154,13 @@ class Parser {
 	equality() {
 		let expr = this.comparison();
 		while (this.match("BANG_EQUAL", "EQUAL_EQUAL")) {
-			const operator = this.previous();
-			const right = this.comparison();
-
-			expr = new BinaryExpression(expr, operator, right);
+			try {
+				const operator = this.previous();
+				const right = this.comparison();
+				expr = new BinaryExpression(expr, operator, right);
+			} catch (error) {
+				console.log("TEST");
+			}
 		}
 		return expr;
 	}
@@ -215,18 +220,24 @@ class Parser {
 			this.consume("RIGHT_PAREN", "Expected ')' after expression.");
 			return new Grouping(expr);
 		}
+
+		new LoxError(this.previous().line, "Expected expression.", null).error();
 	}
 
 	consume(type, message) {
 		if (this.check(type)) {
 			return this.advance();
 		} else {
-			throw new LoxError(this.previous().line, message, null);
+			new LoxError(this.previous().line, message, null).error();
 		}
 	}
 
 	parse() {
-		return this.expression();
+		try{
+			return this.expression();
+		} catch {
+			this.hasError = true;
+		}
 	}
 }
 

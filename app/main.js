@@ -24,22 +24,17 @@ if (fileContent.length !== 0) {
 
 	const scanner = new Scanner(lines.join("\n"));
 	const tokens = scanner.scanTokens();
-	const errors = scanner.hasError;
+	let errors = false;
 
 	if (command === "tokenize") {
 		tokens.forEach(token => console.log(token.toString()));
 		// console.log(tokens);
 	} else if (command === "parse") {
 		const parser = new Parser(tokens);
-		try {
-			const expr = parser.parse();
-			const parsed2 = expr.accept(new Visitor());
-
-			// console.log(expr);
-			console.log(parsed2);
-		} catch (error) {
-			console.error("Error during parsing: ", error);
-		}
+		const expr = parser.parse();
+		const parsed = expr.accept(new Visitor());
+		errors = parser.hasError || scanner.hasError;
+		console.log(parsed);
 	}
 
 	if (errors) {

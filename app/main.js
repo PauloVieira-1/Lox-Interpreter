@@ -38,7 +38,6 @@ if (fileContent.length !== 0) {
 			const parsed = expr.accept(new Visitor());
 
 			if (!errors) {
-				console.log(errors);
 				console.log(parsed);
 			}
 		} catch (error) {

@@ -29,7 +29,7 @@ class Token {
 		return (
 			`${this.type}` +
 			" " +
-			`${this.lexeme === "" ? this.lexeme : this.lexeme + " "}` +
+			`${this.lexeme == "" ? this.lexeme : this.lexeme + " "}` +
 			`${this.literal}`
 		);
 	}

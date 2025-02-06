@@ -46,6 +46,7 @@ if (fileContent.length !== 0) {
 	}
 
 	if (errors) {
+		console.log(process.exitCode);
 		process.exit(65);
 	}
 } else {

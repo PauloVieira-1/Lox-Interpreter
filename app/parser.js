@@ -42,9 +42,6 @@ class Parenthesizer {
 			// console.log("EXP :", exp);
 			if (!(exp instanceof Token)) {
 				elements.push(`${exp.accept(visitor)} `);
-			} else if (exp === undefined) {
-				new LoxError("undefined", "Expression is undefined", null).error();
-				process.exit(65);
 			} else {
 				const lexeme = isNaN(parseInt(exp.lexeme))
 					? exp.lexeme
@@ -222,6 +219,7 @@ class Parser {
 		}
 
 		new LoxError(this.previous().line, "Expected expression.", null).error();
+		this.hasError = true;
 	}
 
 	consume(type, message) {

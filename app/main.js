@@ -46,5 +46,5 @@ if (fileContent.length !== 0) {
 		process.exit(65);
 	}
 } else {
-	console.log("EOF null");
+	console.log("EOF  null");
 }

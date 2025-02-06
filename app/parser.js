@@ -40,20 +40,13 @@ class Parenthesizer {
 		// console.log(expressions);
 
 		for (const exp of expressions) {
-			// console.log(exp);
-			console.log(
-				Number.isInteger(exp.value)
-					? `${exp.accept(visitor)}` + ".0 "
-					: `${exp.accept(visitor)} `
-			);
 			if (!(exp instanceof Token)) {
-				elements.push(
-					Number.isInteger(exp.value)
-						? `${exp.accept(visitor)}` + ".0 "
-						: `${exp.accept(visitor)} `
-				);
+				elements.push(`${exp.accept(visitor)} `);
 			} else {
-				elements.push(` ${exp.lexeme} `);
+				const lexeme = isNaN(parseInt(exp.lexeme))
+					? exp.lexeme
+					: `${exp.lexeme}.0`;
+				elements.push(` ${lexeme} `);
 			}
 		}
 		return `(${name} ${elements.join("").trim()})`;

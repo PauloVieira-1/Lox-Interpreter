@@ -41,6 +41,11 @@ class Parenthesizer {
 
 		for (const exp of expressions) {
 			// console.log(exp);
+			console.log(
+				Number.isInteger(exp.value)
+					? `${exp.accept(visitor)}` + ".0 "
+					: `${exp.accept(visitor)} `
+			);
 			if (!(exp instanceof Token)) {
 				elements.push(
 					Number.isInteger(exp.value)

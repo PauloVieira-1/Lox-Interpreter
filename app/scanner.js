@@ -109,6 +109,8 @@ class Scanner {
 				break;
 			case " ":
 				break;
+			case "\t":
+				break;
 			case `"`:
 				this.string();
 				break;

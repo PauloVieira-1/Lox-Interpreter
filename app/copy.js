@@ -88,7 +88,7 @@ lines.forEach(line => {
         result = equalMatch("/", line[current_token + 1]);
         if (!result) console.log("SLASH / null")
         if (result && current_token < line.length) current_token += line.length - current_token
-        break;
+        break; 
       case "!":
         result = equalMatch("=", line[current_token + 1]);
         console.log(result ? "BANG_EQUAL != null" : "BANG ! null")

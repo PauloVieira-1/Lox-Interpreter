@@ -25,7 +25,7 @@ if (fileContent.length !== 0) {
 	const scanner = new Scanner(lines.join("\n"));
 	const tokens = scanner.scanTokens();
 
-	let errors = false;
+	let errors = scanner.hasError;
 
 	if (command === "tokenize") {
 		tokens.forEach(token => console.log(token.toString()));
@@ -47,7 +47,6 @@ if (fileContent.length !== 0) {
 	}
 
 	if (errors) {
-		console.log("Exiting with code 65...");
 		process.exit(65);
 	}
 } else {

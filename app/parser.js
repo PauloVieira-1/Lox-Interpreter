@@ -151,13 +151,9 @@ class Parser {
 	equality() {
 		let expr = this.comparison();
 		while (this.match("BANG_EQUAL", "EQUAL_EQUAL")) {
-			try {
 				const operator = this.previous();
 				const right = this.comparison();
 				expr = new BinaryExpression(expr, operator, right);
-			} catch (error) {
-				console.log("TEST");
-			}
 		}
 		return expr;
 	}
@@ -218,8 +214,6 @@ class Parser {
 			return new Grouping(expr);
 		}
 
-		this.hasError = true;
-		new LoxError(this.previous().line, "Expected expression.", null).error();
 	}
 
 	consume(type, message) {
@@ -231,13 +225,7 @@ class Parser {
 	}
 
 	parse() {
-		try {
-			console.log(this.hasError);
-			return this.expression();
-		} catch (error) {
-			this.hasError = true;
-		}
-		
+		return this.expression();
 	}
 }
 

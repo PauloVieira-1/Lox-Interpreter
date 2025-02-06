@@ -26,7 +26,7 @@ class Token {
 	}
 
 	toString() {
-		return `${this.type} ${this.lexeme} ${this.literal}`.replace("  ", "");
+		return `${this.type} ${this.lexeme} ${this.literal}`.replace("  ", " ");
 	}
 }
 

@@ -35,18 +35,26 @@ class Visitor {
 }
 
 class Parenthesizer {
+	constructor() {
+		this.hasError = false;
+	}
 	parenthesize = (visitor, name, ...expressions) => {
 		const elements = [];
 
 		for (const exp of expressions) {
 			// console.log("EXP :", exp);
-			if (!(exp instanceof Token)) {
-				elements.push(`${exp?.accept(visitor)} `);
-			} else {
-				const lexeme = isNaN(parseInt(exp.lexeme))
-					? exp.lexeme
-					: `${exp.lexeme}.0`;
-				elements.push(` ${lexeme} `);
+			console.error("TESTTTTT");
+			try {
+				if (!(exp instanceof Token)) {
+					elements.push(`${exp.accept(visitor)} `);
+				} else {
+					const lexeme = isNaN(parseInt(exp.lexeme))
+						? exp.lexeme
+						: `${exp.lexeme}.0`;
+					elements.push(` ${lexeme} `);
+				}
+			} catch (error) {
+				this.hasError = true;
 			}
 		}
 		return `(${name} ${elements.join("").trim()})`;
@@ -151,9 +159,9 @@ class Parser {
 	equality() {
 		let expr = this.comparison();
 		while (this.match("BANG_EQUAL", "EQUAL_EQUAL")) {
-				const operator = this.previous();
-				const right = this.comparison();
-				expr = new BinaryExpression(expr, operator, right);
+			const operator = this.previous();
+			const right = this.comparison();
+			expr = new BinaryExpression(expr, operator, right);
 		}
 		return expr;
 	}
@@ -214,6 +222,12 @@ class Parser {
 			return new Grouping(expr);
 		}
 
+		this.hasError = true;
+		throw new LoxError(
+			this.previous().line,
+			"Error at: Expected expression.",
+			null
+		).error();
 	}
 
 	consume(type, message) {
@@ -225,7 +239,12 @@ class Parser {
 	}
 
 	parse() {
-		return this.expression();
+		try {
+			return this.expression();
+		} catch (error) {
+			this.hasError = true;
+			return null;
+		}
 	}
 }
 

@@ -51,8 +51,7 @@ class Parenthesizer {
 				elements.push(` ${exp.lexeme} `);
 			}
 		}
-
-		return `(${name} ${elements.join("").trimEnd()})`;
+		return `(${name} ${elements.join("").trim()})`;
 	};
 }
 

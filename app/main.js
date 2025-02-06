@@ -34,6 +34,7 @@ if (fileContent.length !== 0) {
 		const expr = parser.parse();
 		const parsed = expr.accept(new Visitor());
 		errors = parser.hasError || scanner.hasError;
+		console.log(errors);
 		console.log(parsed);
 	}
 

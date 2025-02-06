@@ -31,13 +31,14 @@ if (fileContent.length !== 0) {
 		// console.log(tokens);
 	} else if (command === "parse") {
 		const parser = new Parser(tokens);
+		const expr = parser.parse();
+		errors = parser.hasError || scanner.hasError;
+
 		try {
-			const expr = parser.parse();
 			const parsed = expr.accept(new Visitor());
-			errors = parser.hasError || scanner.hasError;
 
 			if (!errors) {
-				// console.log(errors);
+				console.log(errors);
 				console.log(parsed);
 			}
 		} catch (error) {

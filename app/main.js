@@ -47,6 +47,7 @@ if (fileContent.length !== 0) {
 	}
 
 	if (errors) {
+		console.log("Exiting with code 65...");
 		process.exit(65);
 	}
 } else {

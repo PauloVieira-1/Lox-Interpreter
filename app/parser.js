@@ -203,7 +203,7 @@ class Parser {
 	unary() {
 		if (this.match("BANG", "MINUS")) {
 			const operator = this.next();
-			const right = this.previous();
+			const right = this.previous().trim();
 			return new UnaryExpression(right, operator);
 		}
 		return this.primary();

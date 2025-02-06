@@ -39,9 +39,12 @@ class Parenthesizer {
 		const elements = [];
 
 		for (const exp of expressions) {
-			// console.log("EXP :", exp);
 			if (!(exp instanceof Token)) {
-				elements.push(`${exp.accept(visitor)} `);
+				try {
+					elements.push(`${exp.accept(visitor)} `);
+				} catch (e) {
+					// new LoxError(e.line, e.message, null).error();
+				}
 			} else {
 				const lexeme = isNaN(parseInt(exp.lexeme))
 					? exp.lexeme
@@ -218,8 +221,8 @@ class Parser {
 			return new Grouping(expr);
 		}
 
-		new LoxError(this.previous().line, "Expected expression.", null).error();
 		this.hasError = true;
+		new LoxError(this.previous().line, "Expected expression.", null).error();
 	}
 
 	consume(type, message) {
@@ -231,10 +234,13 @@ class Parser {
 	}
 
 	parse() {
-		try{
-			return this.expression();
-		} catch {
+		try {
+			let expr = this.expression();
+			return expr;
+		} catch (error) {
+			console.error(error.message);
 			this.hasError = true;
+			return null;
 		}
 	}
 }

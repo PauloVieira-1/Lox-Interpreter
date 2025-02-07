@@ -31,8 +31,11 @@ if (fileContent.length !== 0) {
 	const parser = new Parser(tokens);
 	const expr = parser.parse();
 
-	errors = parser.hasError;
+	if (parser.hasError) errors = true;
+
 	const parsed = expr.accept(new Visitor());
+
+	// Evaluator Implementation
 
 	if (command === "tokenize") {
 		tokens.forEach(token => console.log(token.toString()));

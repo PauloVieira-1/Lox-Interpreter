@@ -7,9 +7,26 @@ function isString(r, l) {
 	return r instanceof String && l instanceof String;
 }
 
+function isTruthy(t) {
+	if (t === null) return false;
+	if (t instanceof Boolean) return t;
+}
+
 class Visitor {
 	visitLiteralExpression(literal) {
 		return literal.value;
+	}
+
+	visitUnaryExpression(unary) {
+		const operator = unary.operator;
+		const right = Number(unary.right.value);
+
+		switch (operator) {
+			case "-":
+				return -right;
+			case "!":
+				return isTruthy(unary.right.value);
+		}
 	}
 
 	visitBinaryExpression(binary) {
@@ -24,6 +41,10 @@ class Visitor {
 				return left * right;
 			case "/":
 				return left / right;
+			case "<":
+				return left < right;
+			case ">":
+				return left > right;
 			case "+":
 				if (isFloat(binary.left.value) && isFloat(binary.right.value)) {
 					return left + right;

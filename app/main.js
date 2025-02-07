@@ -31,8 +31,8 @@ if (fileContent.length !== 0) {
 	// Parser Implementation
 	const parser = new Parser(tokens);
 	const expr = parser.parse();
-	if (parser.hasError) errors = true;
 
+	if (parser.hasError) errors = true;
 	const parsed = expr.accept(new Visitor());
 
 	// Evaluator Implementation
@@ -46,7 +46,6 @@ if (fileContent.length !== 0) {
 			console.log(parsed);
 		}
 	} else if (command === "evaluate") {
-		// console.log(expr);
 		if (!errors) {
 			console.log(evaluated);
 		}

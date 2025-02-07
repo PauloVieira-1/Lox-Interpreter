@@ -63,7 +63,7 @@ class Interpreter {
 	}
 
 	interpret() {
-		return this.expression.accept(new Visitor());
+		return this.expression?.accept(new Visitor());
 	}
 }
 

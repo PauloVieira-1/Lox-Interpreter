@@ -33,7 +33,7 @@ if (fileContent.length !== 0) {
 	const expr = parser.parse();
 
 	if (parser.hasError) errors = true;
-	const parsed = expr.accept(new Visitor());
+	const parsed = expr?.accept(new Visitor());
 
 	// Evaluator Implementation
 

@@ -215,7 +215,7 @@ class Parser {
 	primary() {
 		if (this.match("FALSE")) return new Literal(false);
 		if (this.match("TRUE")) return new Literal(true);
-		if (this.match("NIL")) return new Literal("nil");
+		if (this.match("NIL")) return new Literal(null);
 
 		if (this.match("NUMBER", "STRING")) {
 			return new Literal(this.previous().literal);

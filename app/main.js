@@ -41,7 +41,9 @@ if (fileContent.length !== 0) {
 			console.log(parsed);
 		}
 	} else if (command === "evaluate") {
-		console.log("TEST");
+		if (!errors) {
+			console.log("TEST");
+		}
 	}
 
 	if (errors) {

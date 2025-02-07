@@ -30,7 +30,8 @@ if (fileContent.length !== 0) {
 
 	const parser = new Parser(tokens);
 	const expr = parser.parse();
-	errors = parser.hasError || scanner.hasError;
+
+	errors = scanner.hasError;
 
 	if (command === "tokenize") {
 		tokens.forEach(token => console.log(token.toString()));
@@ -38,6 +39,8 @@ if (fileContent.length !== 0) {
 	} else if (command === "parse") {
 		try {
 			const parsed = expr.accept(new Visitor());
+
+			errors = parser.hasError || scanner.hasError;
 
 			if (!errors) {
 				console.log(parsed);

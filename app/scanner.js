@@ -160,7 +160,7 @@ class Scanner {
 				} else if (this.isAlpha(c)) {
 					this.identifier();
 				} else {
-					new LoxError(this.line, "Unexpected character.", c).invalidChar();
+					new LoxError(this.line + 1, "Unexpected character.", c).invalidChar();
 					this.hasError = true;
 				}
 		}
@@ -185,7 +185,6 @@ class Scanner {
 	}
 
 	nextChar() {
-		// console.log(this.current);
 		return this.source[this.current + 1];
 	}
 
@@ -195,7 +194,6 @@ class Scanner {
 				break;
 			}
 			this.advance();
-			// console.log(this.current);
 		}
 
 		if (this.nextChar() !== `"`) {

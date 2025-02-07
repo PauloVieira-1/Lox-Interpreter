@@ -1,6 +1,23 @@
+import { Token, LoxError } from "./scanner.js";
+
 // The visitor design pattern -----> https://refactoring.guru/design-patterns/visitor
 
-import { Token, LoxError } from "./scanner.js";
+//  ! PARSING RULES USED !  //
+
+/*
+
+expression     → equality ;
+equality       → comparison ( ( "!=" | "==" ) comparison )* ;
+comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
+term           → factor ( ( "-" | "+" ) factor )* ;
+factor         → unary ( ( "/" | "*" ) unary )* ;
+unary          → ( "!" | "-" ) unary
+               | primary ;
+primary        → NUMBER | STRING | "true" | "false" | "nil"
+               | "(" expression ")" ;
+
+
+*/
 
 class Visitor {
 	constructor() {
@@ -35,39 +52,25 @@ class Visitor {
 }
 
 class Parenthesizer {
-	constructor() {
-		this.hasError = false;
-	}
 	parenthesize = (visitor, name, ...expressions) => {
 		const elements = [];
 
 		for (const exp of expressions) {
-			// console.log("EXP :", exp);
-			console.error("TESTTTTT");
-			try {
-				if (!(exp instanceof Token)) {
-					elements.push(`${exp.accept(visitor)} `);
-				} else {
-					const lexeme = isNaN(parseInt(exp.lexeme))
-						? exp.lexeme
-						: `${exp.lexeme}.0`;
-					elements.push(` ${lexeme} `);
-				}
-			} catch (error) {
-				this.hasError = true;
+			if (!(exp instanceof Token)) {
+				elements.push(`${exp.accept(visitor)} `);
+			} else {
+				const lexeme = isNaN(parseInt(exp.lexeme))
+					? exp.lexeme
+					: `${exp.lexeme}.0`;
+				elements.push(` ${lexeme} `);
 			}
 		}
+
 		return `(${name} ${elements.join("").trim()})`;
 	};
 }
 
 class BinaryExpression {
-	/**
-     * 
-     * @param {*} left 
-     * @param {Token} operator 
-     * @param {*} right 
-     */
 	constructor(left, operator, right) {
 		this.left = left;
 		this.operator = operator;
@@ -223,6 +226,7 @@ class Parser {
 		}
 
 		this.hasError = true;
+
 		throw new LoxError(
 			this.previous().line,
 			"Error at: Expected expression.",
@@ -256,17 +260,3 @@ export {
 	UnaryExpression,
 	Grouping
 };
-
-//! PARSING RULES
-
-/*
-expression     → equality ;
-equality       → comparison ( ( "!=" | "==" ) comparison )* ;
-comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
-term           → factor ( ( "-" | "+" ) factor )* ;
-factor         → unary ( ( "/" | "*" ) unary )* ;
-unary          → ( "!" | "-" ) unary
-               | primary ;
-primary        → NUMBER | STRING | "true" | "false" | "nil"
-               | "(" expression ")" ;
-*/

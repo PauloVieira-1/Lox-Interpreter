@@ -23,31 +23,38 @@ const fileContent = fs.readFileSync(filename, "utf8");
 if (fileContent.length !== 0) {
 	let lines = fileContent.split("\n");
 
-	// Scanner Implementation
 	const scanner = new Scanner(lines.join("\n"));
 	const tokens = scanner.scanTokens();
+
 	let errors = scanner.hasError;
 
-	// Parser Implementation
 	const parser = new Parser(tokens);
 	const expr = parser.parse();
-
-	if (parser.hasError) errors = true;
-	const parsed = expr?.accept(new Visitor());
-
-	// Evaluator Implementation
-
-	const evaluated = new Interpreter(expr).interpret();
+	errors = parser.hasError || scanner.hasError;
 
 	if (command === "tokenize") {
 		tokens.forEach(token => console.log(token.toString()));
+		// console.log(tokens);
 	} else if (command === "parse") {
-		if (!errors) {
-			console.log(parsed);
+		try {
+			const parsed = expr.accept(new Visitor());
+
+			if (!errors) {
+				console.log(parsed);
+			}
+		} catch (error) {
+			// console.error("Error during parsing: ", error);
 		}
 	} else if (command === "evaluate") {
-		if (!errors) {
-			console.log(evaluated);
+		try {
+			const result = expr.accept(new Visitor());
+
+			if (!errors) {
+				const interpret = new Interpreter(expr).interpret();
+				console.log(interpret);
+			}
+		} catch (error) {
+			// console.error("Error during evaluation: ", error);
 		}
 	}
 

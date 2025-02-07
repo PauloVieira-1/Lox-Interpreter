@@ -14,7 +14,6 @@ function isTruthy(t) {
 
 class Visitor {
 	visitLiteralExpression(literal) {
-		if (literal.value === null) return (literal.value = "nil");
 		return literal.value;
 	}
 

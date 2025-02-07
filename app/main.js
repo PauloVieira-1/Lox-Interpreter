@@ -11,7 +11,7 @@ if (args.length < 2) {
 
 const command = args[0];
 
-if (command !== "tokenize" && command !== "parse") {
+if (command !== "tokenize" && command !== "parse" && command !== "evaluate") {
 	console.error(`Usage: Unknown command: ${command}`);
 	process.exit(1);
 }
@@ -22,22 +22,26 @@ const fileContent = fs.readFileSync(filename, "utf8");
 if (fileContent.length !== 0) {
 	let lines = fileContent.split("\n");
 
+	// Scanner Implementation
 	const scanner = new Scanner(lines.join("\n"));
 	const tokens = scanner.scanTokens();
 	let errors = scanner.hasError;
 
+	// Parser Implementation
+	const parser = new Parser(tokens);
+	const expr = parser.parse();
+
+	errors = parser.hasError;
+	const parsed = expr.accept(new Visitor());
+
 	if (command === "tokenize") {
 		tokens.forEach(token => console.log(token.toString()));
 	} else if (command === "parse") {
-		const parser = new Parser(tokens);
-		const expr = parser.parse();
-
-		errors = parser.hasError;
-		const parsed = expr.accept(new Visitor());
-
 		if (!errors) {
 			console.log(parsed);
 		}
+	} else if (command === "evaluate") {
+		console.log("TEST");
 	}
 
 	if (errors) {

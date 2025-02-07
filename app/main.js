@@ -1,6 +1,7 @@
 import fs from "fs";
-import { Scanner, Token } from "./scanner.js";
-import { Parser, Visitor, Literal, BinaryExpression } from "./parser.js";
+import { Scanner } from "./scanner.js";
+import { Parser, Visitor } from "./parser.js";
+import { Interpreter } from "./evaluator.js";
 
 const args = process.argv.slice(2);
 
@@ -30,12 +31,13 @@ if (fileContent.length !== 0) {
 	// Parser Implementation
 	const parser = new Parser(tokens);
 	const expr = parser.parse();
-
 	if (parser.hasError) errors = true;
 
 	const parsed = expr.accept(new Visitor());
 
 	// Evaluator Implementation
+
+	const evaluated = new Interpreter(expr).interpret();
 
 	if (command === "tokenize") {
 		tokens.forEach(token => console.log(token.toString()));
@@ -44,8 +46,9 @@ if (fileContent.length !== 0) {
 			console.log(parsed);
 		}
 	} else if (command === "evaluate") {
+		// console.log(expr);
 		if (!errors) {
-			console.log("TEST");
+			console.log(evaluated);
 		}
 	}
 

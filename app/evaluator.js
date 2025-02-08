@@ -37,13 +37,13 @@ class Visitor {
 
 	visitUnaryExpression(unary) {
 		const operator = unary.operator.lexeme;
-		const right = Number(evaluate(unary.right, this));
+		const right = evaluate(unary.right, this);
 
 		switch (operator) {
 			case "-":
-				return -right;
+				return -Number(right);
 			case "!":
-				return isTruthy(unary.right.value);
+				return !isTruthy(unary.right.value);
 		}
 	}
 

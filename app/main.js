@@ -35,7 +35,6 @@ if (fileContent.length !== 0) {
 
 	if (command === "tokenize") {
 		tokens.forEach(token => console.log(token.toString()));
-		// console.log(tokens);
 	} else if (command === "parse") {
 		try {
 			const parsed = expr.accept(new Visitor());
@@ -51,6 +50,7 @@ if (fileContent.length !== 0) {
 	} else if (command === "evaluate") {
 		try {
 			const result = expr.accept(new Visitor());
+			errors = parser.hasError || scanner.hasError;
 
 			if (!errors) {
 				const interpret = new Interpreter(expr).interpret();

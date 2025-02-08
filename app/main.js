@@ -31,32 +31,29 @@ if (fileContent.length !== 0) {
 	const parser = new Parser(tokens);
 	const expr = parser.parse();
 
-	errors = scanner.hasError;
+	errors = errors || parser.hasError;
 
 	if (command === "tokenize") {
 		tokens.forEach(token => console.log(token.toString()));
 	} else if (command === "parse") {
 		try {
-			const parsed = expr.accept(new Visitor());
-
 			if (!errors) {
+				const parsed = expr.accept(new Visitor());
 				console.log(parsed);
 			}
 		} catch (error) {
-			errors = parser.hasError || scanner.hasError;
-			// console.error("Error during parsing: ", error);
+			errors = true;
+			console.error("Error during parsing: ", error);
 		}
 	} else if (command === "evaluate") {
 		try {
-			// const result = expr.accept(new Visitor());
-			errors = parser.hasError || scanner.hasError;
-
 			if (!errors) {
 				const interpret = new Interpreter(expr).interpret();
 				console.log(interpret);
 			}
 		} catch (error) {
-			// console.error("Error during evaluation: ", error);
+			errors = true;
+			console.error("Error during evaluation: ", error);
 		}
 	}
 

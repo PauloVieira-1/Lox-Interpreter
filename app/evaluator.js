@@ -91,7 +91,7 @@ class Visitor {
 			case "!=":
 				return left !== right;
 			case "==":
-				return left == right;
+				return left == right || leftEval == rightEval;
 			case "+":
 					if (isFloat(leftEval) && isFloat(rightEval)) {
 						return left + right;

@@ -33,16 +33,18 @@ if (fileContent.length !== 0) {
 	} else if (command === "parse" || command === "evaluate") {
 		const parser = new Parser(tokens);
 		const expr = parser.parse();
-		try {
-			if (!errors) {
-				const parsed = expr.accept(new Visitor());
-				console.log(parsed);
-			}
-		} catch (error) {
-			errors = true;
-			console.error("Error during parsing: ", error);
-		}
 
+		if (command === "parse") {
+			try {
+				if (!errors) {
+					const parsed = expr.accept(new Visitor());
+					console.log(parsed);
+				}
+			} catch (error) {
+				errors = true;
+				console.error("Error during parsing: ", error);
+			}
+		}
 		if (command === "evaluate") {
 			try {
 				if (!errors) {

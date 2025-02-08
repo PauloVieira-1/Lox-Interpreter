@@ -73,25 +73,25 @@ class Visitor {
 
 		switch (operator) {
 			case "-":
-                checkNumberOperands(operator, right, left);
+                checkNumberOperands(right, left);
 				return left - right;
 			case "*":
-                checkNumberOperands(operator, right, left);
+                checkNumberOperands(right, left);
 				return left * right;
 			case "/":
-                checkNumberOperands(operator, right, left);
+                checkNumberOperands(right, left);
 				return left / right;
 			case "<":
-                checkNumberOperands(operator, right, left);
+                checkNumberOperands(right, left);
 				return left < right;
 			case ">":
-                checkNumberOperands(operator, right, left);
+                checkNumberOperands(right, left);
 				return left > right;
 			case ">=":
-				checkNumberOperands(operator, right, left);
+				checkNumberOperands(right, left);
 				return left >= right;
 			case "<=":
-				checkNumberOperands(operator, right, left);
+				checkNumberOperands(right, left);
 				return left <= right;
 			case "!=":
 				return left !== right;

@@ -1,6 +1,5 @@
 function isFloat(n) {
 	let val = parseFloat(n);
-	// console.log(val)
 	return !isNaN(val) && isFinite(val);
 }
 
@@ -9,8 +8,8 @@ function isString(r, l) {
 }
 
 function isTruthy(t) {
-	if (t === null) return false;
-	if (t === false) return t;
+	if (t == null) return false;
+	if (t instanceof Boolean) return t;
 	return true;
 }
 

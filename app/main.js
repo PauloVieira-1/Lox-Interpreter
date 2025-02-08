@@ -34,17 +34,17 @@ if (fileContent.length !== 0) {
 		const parser = new Parser(tokens);
 		const expr = parser.parse();
 
-		if (command === "parse") {
-			try {
-				if (!errors) {
-					const parsed = expr.accept(new Visitor());
-					console.log(parsed);
-				}
-			} catch (error) {
-				errors = true;
-				console.error("Error during parsing: ", error);
+		// if (command === "parse") {
+		try {
+			if (!errors) {
+				const parsed = expr.accept(new Visitor());
+				console.log(parsed);
 			}
+		} catch (error) {
+			errors = true;
+			console.error("Error during parsing: ", error);
 		}
+		// }
 		if (command === "evaluate") {
 			try {
 				if (!errors) {

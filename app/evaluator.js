@@ -79,6 +79,7 @@ class Visitor {
                 checkNumberOperands(operator, right, left);
 				return left > right;
 			case "+":
+				console.log(binary)
 				if (isFloat(evaluate(binary.left, this)) && isFloat(evaluate(binary.right, this))) {
 					return left + right;
 				} else if (isString(binary.left.value, binary.right.value)) {

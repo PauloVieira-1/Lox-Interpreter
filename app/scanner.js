@@ -160,7 +160,7 @@ class Scanner {
 				} else if (this.isAlpha(c)) {
 					this.identifier();
 				} else {
-					new LoxError(this.line, "Unexpected character.", c).invalidChar();
+					new LoxError(this.line + 1, "Unexpected character.", c).invalidChar();
 					this.hasError = true;
 				}
 		}

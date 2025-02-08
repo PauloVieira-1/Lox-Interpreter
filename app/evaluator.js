@@ -4,7 +4,7 @@ function isFloat(n) {
 }
 
 function isString(r, l) {
-	return r instanceof String && l instanceof String;
+	return typeof r === 'string' && typeof l === 'string';
 }
 
 function isTruthy(t) {

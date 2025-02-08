@@ -39,17 +39,16 @@ if (fileContent.length !== 0) {
 		try {
 			const parsed = expr.accept(new Visitor());
 
-			errors = parser.hasError || scanner.hasError;
-
 			if (!errors) {
 				console.log(parsed);
 			}
 		} catch (error) {
+			errors = parser.hasError || scanner.hasError;
 			// console.error("Error during parsing: ", error);
 		}
 	} else if (command === "evaluate") {
 		try {
-			const result = expr.accept(new Visitor());
+			// const result = expr.accept(new Visitor());
 			errors = parser.hasError || scanner.hasError;
 
 			if (!errors) {

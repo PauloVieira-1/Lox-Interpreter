@@ -59,7 +59,7 @@ class Visitor {
 				return left > right;
 			case "+":
 				if (isFloat(binary.left.value) && isFloat(binary.right.value)) {
-					return parseFloat(left + right);
+					return left + right;
 				} else if (isString(binary.left.value, binary.right.value)) {
 					return binary.left.value + binary.right.value;
 				}

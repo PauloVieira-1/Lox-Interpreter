@@ -9,7 +9,7 @@ function isString(r, l) {
 
 function isTruthy(t) {
 	if (t == null) return false;
-	if (t instanceof Boolean) return t;
+	if (t === false) return t;
 	return true;
 }
 

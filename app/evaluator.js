@@ -39,7 +39,6 @@ class RuntimeError extends Error {
 class Visitor {
 	visitLiteralExpression(literal) {
 		if (literal.value === null) return "nil";
-        if (isFloat(literal.value)) return Number(literal.value);
 		return literal.value;
 	}
 
@@ -58,7 +57,10 @@ class Visitor {
 
 	visitBinaryExpression(binary) {
 		const left = Number(evaluate(binary.left, this));
+		const leftEval = evaluate(binary.left, this);
 		const right = Number(evaluate(binary.right, this));
+		const rightEval = evaluate(binary.right, this);
+		
 		const operator = binary.operator.lexeme;
 
 
@@ -78,11 +80,11 @@ class Visitor {
 			case ">":
                 checkNumberOperands(operator, right, left);
 				return left > right;
-			case "+":
-				if (isFloat(evaluate(binary.left, this)) && isFloat(evaluate(binary.right, this))) {
-					return left + right;
-				} else if (isString(evaluate(binary.left, this), evaluate(binary.right, this))) {
-					return evaluate(binary.left, this) + evaluate(binary.right, this);
+				case "+":
+					if (isFloat(leftEval) && isFloat(rightEval)) {
+						return left + right;
+					} else if (isString(leftEval, rightEval)) {
+					return leftEval + rightEval;
 				}
 				break;
 		}

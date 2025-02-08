@@ -18,9 +18,11 @@ function checkNumberOperands(operator, right, left) {
     }
 }
 
+
 class Visitor {
 	visitLiteralExpression(literal) {
 		if (literal.value === null) return "nil";
+        if (isFloat(literal.value)) return Number(literal.value);
 		return literal.value;
 	}
 
@@ -59,7 +61,7 @@ class Visitor {
 				return left > right;
 			case "+":
 				if (isFloat(binary.left.value) && isFloat(binary.right.value)) {
-                    console.log(typeof left, typeof right)
+                    // console.log(typeof left, typeof right)
 					return left + right;
 				} else if (isString(binary.left.value, binary.right.value)) {
 					return binary.left.value + binary.right.value;

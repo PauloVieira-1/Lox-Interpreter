@@ -1,6 +1,6 @@
 function isFloat(n) {
 	let val = parseFloat(n);
-	return !isNaN(val) && isFinite(val);
+	return !isNaN(val);
 }
 
 function isString(r, l) {
@@ -13,7 +13,11 @@ function isTruthy(t) {
 	return true;
 }
 
-function checkNumberOperands(operator, right, left) {
+function isDecimal(n) {
+    return !isNaN(n) && n.includes('.');
+}
+
+function checkNumberOperands(right, left) {
     if (typeof right !== 'number' || typeof left !== 'number') {
         throw new RuntimeError(null, "Operands must be numbers.");
     }
@@ -38,9 +42,10 @@ class RuntimeError extends Error {
 
 class Visitor {
 	visitLiteralExpression(literal) {
+		// console.log(isDecimal(literal.value))
+		// console.log(literal.value)
 		if (literal.value === null) return "nil";
-		if (isFloat(literal.value)) return Number(literal.value);
-
+		if (isFloat(literal.value) && isDecimal(literal.value)) return Number(literal.value);
 		return literal.value;
 	}
 
@@ -58,11 +63,11 @@ class Visitor {
 	}
 
 	visitBinaryExpression(binary) {
+
 		const left = Number(evaluate(binary.left, this));
 		const leftEval = evaluate(binary.left, this);
 		const right = Number(evaluate(binary.right, this));
 		const rightEval = evaluate(binary.right, this);
-		
 		const operator = binary.operator.lexeme;
 
 
@@ -91,7 +96,7 @@ class Visitor {
 			case "!=":
 				return left !== right;
 			case "==":
-				return left == right || leftEval == rightEval;
+				return leftEval === rightEval ;
 			case "+":
 					if (isFloat(leftEval) && isFloat(rightEval)) {
 						return left + right;

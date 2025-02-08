@@ -4,7 +4,7 @@ function isFloat(n) {
 }
 
 function isString(r, l) {
-	return typeof r === 'string' && typeof l === 'string';
+	return typeof r === 'string' || typeof l === 'string';
 }
 
 function isTruthy(t) {
@@ -39,6 +39,8 @@ class RuntimeError extends Error {
 class Visitor {
 	visitLiteralExpression(literal) {
 		if (literal.value === null) return "nil";
+		if (isFloat(literal.value)) return Number(literal.value);
+
 		return literal.value;
 	}
 

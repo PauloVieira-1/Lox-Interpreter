@@ -122,7 +122,6 @@ class Parser {
 	constructor(tokens) {
 		this.tokens = tokens || [];
 		this.current = 0;
-		this.hasError = false;
 	}
 
 	isAtEnd() {
@@ -227,8 +226,6 @@ class Parser {
 			return new Grouping(expr);
 		}
 
-		this.hasError = true;
-
 		throw new LoxError(
 			this.previous().line,
 			"Error at: Expected expression.",
@@ -248,7 +245,6 @@ class Parser {
 		try {
 			return this.expression();
 		} catch (error) {
-			this.hasError = true;
 			return null;
 		}
 	}

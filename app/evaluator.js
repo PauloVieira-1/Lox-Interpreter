@@ -12,6 +12,12 @@ function isTruthy(t) {
 	if (t instanceof Boolean) return t;
 }
 
+function checkNumberOperands(operator, right, left) {
+    if (typeof right !== 'number' || typeof left !== 'number') {
+        throw new RuntimeError(null, "Operands must be numbers.");
+    }
+}
+
 class Visitor {
 	visitLiteralExpression(literal) {
 		if (literal.value === null) return "nil";
@@ -37,14 +43,19 @@ class Visitor {
 
 		switch (operator) {
 			case "-":
+                checkNumberOperands(operator, right, left);
 				return left - right;
 			case "*":
+                checkNumberOperands(operator, right, left);
 				return left * right;
 			case "/":
+                checkNumberOperands(operator, right, left);
 				return left / right;
 			case "<":
+                checkNumberOperands(operator, right, left);
 				return left < right;
 			case ">":
+                checkNumberOperands(operator, right, left);
 				return left > right;
 			case "+":
 				if (isFloat(binary.left.value) && isFloat(binary.right.value)) {
@@ -55,6 +66,12 @@ class Visitor {
 				break;
 		}
 	}
+}
+
+class RuntimeError extends Error {
+    constructor(line, message) {
+        super(`[line ${line}] ${message}`);
+    }
 }
 
 class Interpreter {

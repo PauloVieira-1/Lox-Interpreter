@@ -18,6 +18,10 @@ function checkNumberOperands(operator, right, left) {
     }
 }
 
+function evaluate(val, visitor) {
+    return val.accept(visitor)
+}
+
 class RuntimeError extends Error {
     constructor(line, message) {
         super(`[line ${line}] ${message}`);
@@ -32,8 +36,8 @@ class Visitor {
 	}
 
 	visitUnaryExpression(unary) {
-		const operator = unary.operator;
-		const right = Number(unary.right.value);
+		const operator = unary.operator.lexeme;
+		const right = Number(evaluate(unary.right, this));
 
 		switch (operator) {
 			case "-":
@@ -44,8 +48,8 @@ class Visitor {
 	}
 
 	visitBinaryExpression(binary) {
-		const left = Number(binary.left.value);
-		const right = Number(binary.right.value);
+		const left = Number(evaluate(binary.left.value));
+		const right = Number(evaluate(binary.right.value));
 		const operator = binary.operator.lexeme;
 
 		switch (operator) {

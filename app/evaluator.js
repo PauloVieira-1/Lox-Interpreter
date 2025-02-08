@@ -10,7 +10,8 @@ function isString(r, l) {
 
 function isTruthy(t) {
 	if (t === null) return false;
-	if (t instanceof Boolean) return t;
+	if (t === false) return t;
+	return true;
 }
 
 function checkNumberOperands(operator, right, left) {
@@ -51,7 +52,8 @@ class Visitor {
 			case "-":
 				return -Number(right);
 			case "!":
-				return !isTruthy(unary.right.value);
+				// console.log(unary)
+				return !(isTruthy(unary.right.value));
 		}
 	}
 

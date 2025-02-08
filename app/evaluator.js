@@ -59,6 +59,7 @@ class Visitor {
 				return left > right;
 			case "+":
 				if (isFloat(binary.left.value) && isFloat(binary.right.value)) {
+                    console.log(typeof left, typeof right)
 					return left + right;
 				} else if (isString(binary.left.value, binary.right.value)) {
 					return binary.left.value + binary.right.value;

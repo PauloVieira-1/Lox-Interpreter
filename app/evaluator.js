@@ -19,7 +19,12 @@ function checkNumberOperands(operator, right, left) {
 }
 
 function evaluate(val, visitor) {
-    return val.accept(visitor)
+    try {
+        const result = val.accept(visitor);
+        return result
+    } catch {
+        return val
+    }
 }
 
 class RuntimeError extends Error {

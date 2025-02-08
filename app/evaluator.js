@@ -60,7 +60,7 @@ class Visitor {
 		const left = Number(evaluate(binary.left, this));
 		const right = Number(evaluate(binary.right, this));
 		const operator = binary.operator.lexeme;
-		// console.log(left, right)
+
 
 		switch (operator) {
 			case "-":
@@ -79,11 +79,10 @@ class Visitor {
                 checkNumberOperands(operator, right, left);
 				return left > right;
 			case "+":
-				console.log(binary)
 				if (isFloat(evaluate(binary.left, this)) && isFloat(evaluate(binary.right, this))) {
 					return left + right;
-				} else if (isString(binary.left.value, binary.right.value)) {
-					return binary.left.value + binary.right.value;
+				} else if (isString(evaluate(binary.left, this), evaluate(binary.right, this))) {
+					return evaluate(binary.left, this) + evaluate(binary.right, this);
 				}
 				break;
 		}

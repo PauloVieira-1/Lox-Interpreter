@@ -28,12 +28,11 @@ if (fileContent.length !== 0) {
 
 	let errors = scanner.hasError;
 
-	const parser = new Parser(tokens);
-	const expr = parser.parse();
-
 	if (command === "tokenize") {
 		tokens.forEach(token => console.log(token.toString()));
-	} else if (command === "parse") {
+	} else if (command === "parse" || command === "evaluate") {
+		const parser = new Parser(tokens);
+		const expr = parser.parse();
 		try {
 			if (!errors) {
 				const parsed = expr.accept(new Visitor());
@@ -43,15 +42,17 @@ if (fileContent.length !== 0) {
 			errors = true;
 			console.error("Error during parsing: ", error);
 		}
-	} else if (command === "evaluate") {
-		try {
-			if (!errors) {
-				const interpret = new Interpreter(expr).interpret();
-				console.log(interpret);
+
+		if (command === "evaluate") {
+			try {
+				if (!errors) {
+					const interpret = new Interpreter(expr).interpret();
+					console.log(interpret);
+				}
+			} catch (error) {
+				errors = true;
+				console.error("Error during evaluation: ", error);
 			}
-		} catch (error) {
-			errors = true;
-			console.error("Error during evaluation: ", error);
 		}
 	}
 

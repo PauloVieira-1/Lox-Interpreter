@@ -19,10 +19,12 @@ function checkNumberOperands(operator, right, left) {
 }
 
 function evaluate(val, visitor) {
+//! Same as creating new visiotr instance?
     try {
         const result = val.accept(visitor);
         return result
-    } catch {
+    } catch (error) {
+		console.error(error)
         return val
     }
 }
@@ -53,8 +55,8 @@ class Visitor {
 	}
 
 	visitBinaryExpression(binary) {
-		const left = Number(evaluate(binary.left.value));
-		const right = Number(evaluate(binary.right.value));
+		const left = Number(evaluate(binary.left, this));
+		const right = Number(evaluate(binary.right, this));
 		const operator = binary.operator.lexeme;
 
 		switch (operator) {
@@ -75,7 +77,6 @@ class Visitor {
 				return left > right;
 			case "+":
 				if (isFloat(binary.left.value) && isFloat(binary.right.value)) {
-                    // console.log(typeof left, typeof right)
 					return left + right;
 				} else if (isString(binary.left.value, binary.right.value)) {
 					return binary.left.value + binary.right.value;

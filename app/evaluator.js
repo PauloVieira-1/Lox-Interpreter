@@ -45,7 +45,9 @@ class Visitor {
 		// console.log(isDecimal(literal.value))
 		// console.log(literal.value)
 		if (literal.value === null) return "nil";
-		if (isFloat(literal.value) && isDecimal(literal.value)) return Number(literal.value);
+		
+		if (typeof literal.value === 'number') return literal.value;
+
 		return literal.value;
 	}
 

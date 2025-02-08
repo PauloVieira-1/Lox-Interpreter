@@ -31,7 +31,7 @@ if (fileContent.length !== 0) {
 	const parser = new Parser(tokens);
 	const expr = parser.parse();
 
-	errors = errors || parser.hasError;
+	// errors = errors || parser.hasError;
 
 	if (command === "tokenize") {
 		tokens.forEach(token => console.log(token.toString()));

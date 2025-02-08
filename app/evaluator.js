@@ -18,6 +18,11 @@ function checkNumberOperands(operator, right, left) {
     }
 }
 
+class RuntimeError extends Error {
+    constructor(line, message) {
+        super(`[line ${line}] ${message}`);
+    }
+}
 
 class Visitor {
 	visitLiteralExpression(literal) {
@@ -69,11 +74,9 @@ class Visitor {
 				break;
 		}
 	}
-}
 
-class RuntimeError extends Error {
-    constructor(line, message) {
-        super(`[line ${line}] ${message}`);
+    visitGroupingExpression(grouping) {
+        return grouping.expression.accept(this);
     }
 }
 

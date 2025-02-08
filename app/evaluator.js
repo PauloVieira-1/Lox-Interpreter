@@ -83,9 +83,15 @@ class Visitor {
                 checkNumberOperands(operator, right, left);
 				return left > right;
 			case ">=":
+				checkNumberOperands(operator, right, left);
 				return left >= right;
 			case "<=":
+				checkNumberOperands(operator, right, left);
 				return left <= right;
+			case "!=":
+				return left !== right;
+			case "==":
+				return left === right;
 			case "+":
 					if (isFloat(leftEval) && isFloat(rightEval)) {
 						return left + right;

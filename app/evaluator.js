@@ -31,6 +31,13 @@ function checkNumberOperand(right) {
 	}
 }
 
+function checkStringOperand(right) {
+	if (typeof right !== 'string') {
+		new RuntimeError(null, "Operand must be a string.").error();
+		process.exit(70)
+	}
+}
+
 function evaluate(val, visitor) {
 //! Same as creating new visiotr instance?
     try {
@@ -123,6 +130,7 @@ class Visitor {
 					if (isFloat(leftEval) && isFloat(rightEval)) {
 						return left + right;
 					} else if (isString(leftEval, rightEval)) {
+						checkStringOperand(rightEval);
 					return leftEval + rightEval;
 				}
 				break;

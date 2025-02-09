@@ -80,7 +80,7 @@ class Visitor {
 				checkNumberOperand(right);
 				return -Number(right)
 			case "!" :
-				checkNumberOperand(right);
+				console.log(checkNumberOperand(right));
 				return !(isTruthy(unary.right.value));
 		}
 	}

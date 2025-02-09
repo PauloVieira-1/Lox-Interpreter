@@ -25,7 +25,7 @@ function checkNumberOperands(right, left) {
 }
 
 function checkNumberOperand(right) {
-	if (typeof right !== 'number' && typeof right !== 'boolean') {
+	if (typeof right !== 'number') {
 		new RuntimeError(null, "Operand must be a number.").error();
 		process.exit(70)
 	}
@@ -80,7 +80,6 @@ class Visitor {
 				checkNumberOperand(right);
 				return -Number(right)
 			case "!" :
-				console.log(checkNumberOperand(right));
 				return !(isTruthy(unary.right.value));
 		}
 	}

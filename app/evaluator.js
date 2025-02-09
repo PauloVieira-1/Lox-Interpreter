@@ -25,8 +25,7 @@ function checkNumberOperands(right, left) {
 }
 
 function checkNumberOperand(right) {
-	console.log(right)
-	if (typeof right !== 'number' || typeof right !== 'boolean') {
+	if (typeof right !== 'number' && typeof right !== 'boolean') {
 		new RuntimeError(null, "Operand must be a number.").error();
 		process.exit(70)
 	}

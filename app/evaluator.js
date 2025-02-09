@@ -31,9 +31,9 @@ function checkNumberOperand(right) {
 	}
 }
 
-function checkStringOperand(right) {
-	if (typeof right !== 'string') {
-		new RuntimeError(null, "Operand must be a string.").error();
+function checkStringOperand(s) {
+	if (typeof s !== 'string') {
+		new RuntimeError(null, "Operand must be a two numbers or two strings.").error();
 		process.exit(70)
 	}
 }
@@ -131,6 +131,7 @@ class Visitor {
 						return left + right;
 					} else if (isString(leftEval, rightEval)) {
 						checkStringOperand(rightEval);
+						checkStringOperand(leftEval);
 					return leftEval + rightEval;
 				}
 				break;

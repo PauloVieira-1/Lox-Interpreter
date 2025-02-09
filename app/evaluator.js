@@ -42,8 +42,7 @@ class RuntimeError extends Error {
 
 class Visitor {
 	visitLiteralExpression(literal) {
-		// console.log(isDecimal(literal.value))
-		// console.log(literal.value)
+
 		if (literal.value === null) return "nil";
 		
 		if (isFloat(literal.value)){
@@ -67,7 +66,6 @@ class Visitor {
 			case "-":
 				return -Number(right);
 			case "!":
-				// console.log(unary)
 				return !(isTruthy(unary.right.value));
 		}
 	}

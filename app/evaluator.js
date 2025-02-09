@@ -19,8 +19,16 @@ function isDecimal(n) {
 
 function checkNumberOperands(right, left) {
     if (typeof right !== 'number' || typeof left !== 'number') {
-        throw new RuntimeError(null, "Operands must be numbers.");
-    }
+        new RuntimeError(null, "Operands must be numbers.").error();
+		process.exit(70)
+	}
+}
+
+function checkNumberOperand(operand) {
+	if (typeof operand !== 'number') {
+		new RuntimeError(null, "Operand must be a number.").error();
+		process.exit(70)
+	}
 }
 
 function evaluate(val, visitor) {
@@ -34,10 +42,15 @@ function evaluate(val, visitor) {
     }
 }
 
-class RuntimeError extends Error {
+class RuntimeError {
     constructor(line, message) {
-        super(`[line ${line}] ${message}`);
+		this.line = line;
+		this.message = message;
     }
+
+	error() {
+		console.error(`${this.message}`);
+	}
 }
 
 class Visitor {
@@ -64,8 +77,10 @@ class Visitor {
 
 		switch (operator) {
 			case "-":
-				return -Number(right);
-			case "!":
+				checkNumberOperand(right);
+				return -Number(right)
+			case "!" :
+				checkNumberOperand(right);
 				return !(isTruthy(unary.right.value));
 		}
 	}
@@ -123,6 +138,7 @@ class Visitor {
 class Interpreter {
 	constructor(expression) {
 		this.expression = expression;
+		this.hasError = false;
 	}
 
 	interpret() {

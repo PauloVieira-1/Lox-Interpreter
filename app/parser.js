@@ -107,7 +107,7 @@ class ParserError {
 			`[line ${this.token.line}] Error at '${this.token.lexeme}': ${this
 				.message}`
 		);
-		process.exit(70);
+		process.exit(65);
 	}
 }
 
@@ -242,7 +242,7 @@ class Parser {
 		if (this.match("SEMICOLON")) {
 			return null;
 		} else if (this.isAtEnd()) {
-			throw new CompilerError(
+			throw new ParserError(
 				this.previous(),
 				"Expected expression.",
 				null

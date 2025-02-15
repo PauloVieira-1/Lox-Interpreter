@@ -231,7 +231,7 @@ class Parser {
 			this.consume(
 				"RIGHT_PAREN",
 				"Expected ')' after expression.",
-				"RuntimeError"
+				"CompilerError"
 			);
 			return new Grouping(expr);
 		}

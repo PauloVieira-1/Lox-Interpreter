@@ -42,9 +42,6 @@ if (fileContent.length !== 0) {
 	) {
 		const parser = new Parser(tokens);
 		const expr = parser.parse();
-		const parserErrors = parser.hasError;
-		console.log(parserErrors);
-		console.log(errors);
 
 		if (command === "parse") {
 			try {

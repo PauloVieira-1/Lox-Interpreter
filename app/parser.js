@@ -242,7 +242,7 @@ class Parser {
 		if (this.match("SEMICOLON")) {
 			return null;
 		} else if (this.isAtEnd()) {
-			throw new ParserError(
+			throw new CompilerError(
 				this.previous(),
 				"Expected expression.",
 				null
@@ -255,7 +255,7 @@ class Parser {
 			// console.log(this.check(type));
 			return this.advance();
 		} else {
-			new CompilerError(this.previous(), message, null).error(); // look into factory deisgn pattern for error handling
+			new ParserError(this.previous(), message, null).error(); // look into factory deisgn pattern for error handling
 		}
 	}
 

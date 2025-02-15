@@ -111,6 +111,21 @@ class ParserError {
 	}
 }
 
+class CompilerError {
+	constructor(token, message) {
+		this.token = token;
+		this.message = message;
+	}
+
+	error() {
+		console.error(
+			`[line ${this.token.line}] Error at '${this.token.lexeme}': ${this
+				.message}`
+		);
+		process.exit(65);
+	}
+}
+
 class Parser {
 	/**
 	 * 
@@ -240,7 +255,7 @@ class Parser {
 			// console.log(this.check(type));
 			return this.advance();
 		} else {
-			new ParserError(this.previous(), message, null).error(); // look into factory deisgn pattern for error handling
+			new CompilerError(this.previous(), message, null).error(); // look into factory deisgn pattern for error handling
 		}
 	}
 

@@ -1,4 +1,5 @@
-print "Hello, World!";	
-print "x";
-print 12 + 24;
-print 42;
+// print "Hello, World!";	
+// print "x";
+// print 12 + 24;
+// print 42;
+print;

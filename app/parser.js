@@ -245,7 +245,7 @@ class Parser {
 			throw new ParserError(
 				this.previous(),
 				"Expected expression.",
-				65
+				70
 			).error();
 		}
 	}

@@ -107,7 +107,7 @@ class ParserError {
 			`[line ${this.token.line}] Error at '${this.token.lexeme}': ${this
 				.message}`
 		);
-		process.exit(65);
+		process.exit(70);
 	}
 }
 
@@ -245,17 +245,22 @@ class Parser {
 			throw new ParserError(
 				this.previous(),
 				"Expected expression.",
-				null
+				65
 			).error();
 		}
 	}
 
-	consume(type, message) {
+	consume(type, message, error) {
 		if (this.check(type)) {
 			// console.log(this.check(type));
 			return this.advance();
 		} else {
-			new ParserError(this.previous(), message, null).error(); // look into factory deisgn pattern for error handling
+			if (error === 65) {
+				new CompilerError(this.previous(), message, null).error();
+			}
+			if (error === 70) {
+				new ParserError(this.previous(), message, null).error();
+			} // look into factory deisgn pattern for error handling
 		}
 	}
 
@@ -271,13 +276,13 @@ class Parser {
 	printStatement() {
 		let value = this.expression();
 		// console.log(this.consume("SEMICOLON", "Expected ';' after value."));
-		this.consume("SEMICOLON", "Expected ';' after value.");
+		this.consume("SEMICOLON", "Expected ';' after value.", 65);
 		return new Print(value).accept(new statementVisitor());
 	}
 
 	expressionStatement() {
 		let expression = this.expression();
-		this.consume("SEMICOLON", "Expected ';' after expression.");
+		this.consume("SEMICOLON", "Expected ';' after expression.", 65);
 		return new Expression(expression);
 	}
 

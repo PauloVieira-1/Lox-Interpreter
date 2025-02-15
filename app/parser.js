@@ -245,7 +245,7 @@ class Parser {
 			throw new ParserError(
 				this.previous(),
 				"Expected expression.",
-				70
+				null
 			).error();
 		}
 	}
@@ -256,11 +256,10 @@ class Parser {
 			return this.advance();
 		} else {
 			if (error === 65) {
-				new CompilerError(this.previous(), message, null).error();
+				new CompilerError(this.previous(), message).error();
+			} else {
+				new ParserError(this.previous(), message, null).error(); // look into factory deisgn pattern for error handling
 			}
-			if (error === 70) {
-				new ParserError(this.previous(), message, null).error();
-			} // look into factory deisgn pattern for error handling
 		}
 	}
 
@@ -276,13 +275,13 @@ class Parser {
 	printStatement() {
 		let value = this.expression();
 		// console.log(this.consume("SEMICOLON", "Expected ';' after value."));
-		this.consume("SEMICOLON", "Expected ';' after value.", 65);
+		this.consume("SEMICOLON", "Expected ';' after value.");
 		return new Print(value).accept(new statementVisitor());
 	}
 
 	expressionStatement() {
 		let expression = this.expression();
-		this.consume("SEMICOLON", "Expected ';' after expression.", 65);
+		this.consume("SEMICOLON", "Expected ';' after expression.");
 		return new Expression(expression);
 	}
 

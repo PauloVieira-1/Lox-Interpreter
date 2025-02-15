@@ -8,7 +8,7 @@ function isString(r, l) {
 }
 
 function isTruthy(t) {
-	if (t == null) return false;
+	if (t == null) return false; 
 	if (t === false) return t;
 	return true;
 }
@@ -39,7 +39,7 @@ function checkStringOperand(s) {
 }
 
 function evaluate(val, visitor) {
-//! Same as creating new visiotr instance?
+
     try {
         const result = val.accept(visitor);
         return result
@@ -59,6 +59,7 @@ class RuntimeError {
 		console.error(`${this.message}`);
 	}
 }
+
 
 class Visitor {
 	visitLiteralExpression(literal) {
@@ -132,7 +133,7 @@ class Visitor {
 					} else if (isString(leftEval, rightEval)) {
 						checkStringOperand(rightEval);
 						checkStringOperand(leftEval);
-					return leftEval + rightEval;
+					return leftEval + rightEval; //udnefined 
 				}
 				break;
 		}
@@ -148,10 +149,15 @@ class Interpreter {
 		this.expression = expression;
 		this.hasError = false;
 	}
+	
+	evaluate(expression) {
+		return expression.accept(new Visitor());
+	}
 
 	interpret() {
 		return this.expression?.accept(new Visitor());
 	}
 }
 
-export { Interpreter };
+export { Interpreter
+ };

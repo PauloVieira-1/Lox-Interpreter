@@ -6,7 +6,7 @@ import { Interpreter } from "./evaluator.js";
 const args = process.argv.slice(2);
 
 if (args.length < 2) {
-	console.error("Usage: ./your_program tokenize <filename>");
+	console.error("Usage: ./your_program.sh tokenize <filename>");
 	process.exit(1);
 }
 
@@ -36,9 +36,9 @@ if (fileContent.length !== 0) {
 
 		if (command === "parse") {
 			try {
-				const parsed = expr.accept(new Visitor());
+				// const parsed = expr.accept(new Visitor());
 				if (!errors) {
-					console.log(parsed);
+					// console.log(parsed);
 				}
 			} catch (error) {
 				errors = true;
@@ -52,7 +52,6 @@ if (fileContent.length !== 0) {
 					console.log(interpret);
 				}
 			} catch (error) {
-				errors = true;
 				console.error("Error during evaluation: ", error);
 			}
 		}

@@ -1,25 +1,7 @@
 import { Token, LoxError } from "./scanner.js";
+import { Print, Expression, statementVisitor } from "./statement.js";
 
-// The visitor design pattern -----> https://refactoring.guru/design-patterns/visitor
-
-//  ! PARSING RULES USED !  //
-
-/*
-
-expression     → equality ;
-equality       → comparison ( ( "!=" | "==" ) comparison )* ;
-comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
-term           → factor ( ( "-" | "+" ) factor )* ;
-factor         → unary ( ( "/" | "*" ) unary )* ;
-unary          → ( "!" | "-" ) unary
-               | primary ;
-primary        → NUMBER | STRING | "true" | "false" | "nil"
-               | "(" expression ")" ;
-
-
-*/
-
-//  ! END !  //
+//? The visitor design pattern -----> https://refactoring.guru/design-patterns/visitor
 
 class Visitor {
 	constructor() {
@@ -114,6 +96,21 @@ class Literal {
 	}
 }
 
+class ParserError {
+	constructor(token, message) {
+		this.token = token;
+		this.message = message;
+	}
+
+	error() {
+		console.error(
+			`[line ${this.token.line}] Error at '${this.token.lexeme}': ${this
+				.message}`
+		);
+		process.exit(60);
+	}
+}
+
 class Parser {
 	/**
 	 * 
@@ -127,6 +124,7 @@ class Parser {
 	isAtEnd() {
 		return this.current >= this.tokens.length;
 	}
+
 	next() {
 		return this.tokens[this.current];
 	}
@@ -226,27 +224,60 @@ class Parser {
 			return new Grouping(expr);
 		}
 
-		throw new LoxError(
-			this.previous().line,
-			"Error at: Expected expression.",
-			null
-		).error();
+		if (this.match("SEMICOLON")) {
+			return null;
+		} else if (this.isAtEnd()) {
+			throw new ParserError(
+				this.previous(),
+				"Expected expression.",
+				null
+			).error();
+		}
 	}
 
 	consume(type, message) {
 		if (this.check(type)) {
+			// console.log(this.check(type));
 			return this.advance();
 		} else {
-			new LoxError(this.previous().line, message, null).error();
+			new ParserError(this.previous(), message, null).error(); // look into factory deisgn pattern for error handling
 		}
 	}
 
-	parse() {
-		try {
-			return this.expression();
-		} catch (error) {
-			return null;
+	statement() {
+		// First check if should print or evaluate the expression
+		if (this.match("PRINT")) {
+			return this.printStatement();
 		}
+
+		return this.expressionStatement();
+	}
+
+	printStatement() {
+		let value = this.expression();
+		// console.log(this.consume("SEMICOLON", "Expected ';' after value."));
+		this.consume("SEMICOLON", "Expected ';' after value.");
+		return new Print(value).accept(new statementVisitor());
+	}
+
+	expressionStatement() {
+		let expression = this.expression();
+		this.consume("SEMICOLON", "Expected ';' after expression.");
+		return new Expression(expression);
+	}
+
+	parse() {
+		let statements = [];
+		try {
+			while (!this.isAtEnd() && !this.match("EOF")) {
+				statements.push(this.statement());
+			}
+		} catch (error) {
+			console.error("ERRORRRRRR");
+			console.log(error);
+		}
+
+		return statements;
 	}
 }
 

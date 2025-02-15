@@ -40,7 +40,7 @@ if (fileContent.length !== 0) {
 		command === "evaluate" ||
 		command === "run"
 	) {
-		if (command === "parse") {
+		if (command === "parse" || command === "run") {
 			try {
 				const parser = new Parser(tokens);
 				parser.parse();

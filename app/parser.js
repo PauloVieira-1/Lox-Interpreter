@@ -297,7 +297,6 @@ class Parser {
 			}
 		} catch (error) {
 			console.error("ERRORRRRRR");
-			// console.log(error);
 		}
 
 		return statements;
@@ -305,7 +304,6 @@ class Parser {
 
 	parseEvaluator() {
 		try {
-			// console.log(this);
 			return this.expression();
 		} catch (error) {
 			this.hasError = true;

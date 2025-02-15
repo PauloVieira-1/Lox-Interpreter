@@ -45,7 +45,6 @@ if (fileContent.length !== 0) {
 				const parser = new Parser(tokens);
 				const parsed = parser.parseEvaluator();
 				console.log(parsed);
-
 			} catch (error) {
 				errors = true;
 				console.error("Error during parsing: ", error);
@@ -73,11 +72,12 @@ if (fileContent.length !== 0) {
 			} catch (error) {
 				console.error("Error during running: ", error);
 			}
-	}
+		}
 
-	if (errors) {
-		process.exit(65);
+		if (errors) {
+			process.exit(65);
+		}
+	} else {
+		console.log("EOF  null");
 	}
-} else {
-	console.log("EOF  null");
 }

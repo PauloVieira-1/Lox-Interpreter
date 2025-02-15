@@ -33,7 +33,7 @@ The entry point for your program is in `app/main.js`. Study and uncomment the
 relevant code, and push your changes to pass the first stage:
 
 ```sh
-git commit -am "pass 1st stage" # any msg
+git commit -am "pass 1st stage"
 git push origin master
 ```
 

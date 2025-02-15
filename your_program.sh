@@ -17,5 +17,6 @@ case "$1" in
     t) exec node app/main.js tokenize test.lox ;;
     p) exec node app/main.js parse test.lox ;;
     e) exec node app/main.js evaluate test.lox ;;
+    r) exec node app/main.js run test.lox ;;
     *) echo Usage: t: tokenize p: parse e: evaluate
 esac

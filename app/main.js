@@ -12,7 +12,12 @@ if (args.length < 2) {
 
 const command = args[0];
 
-if (command !== "tokenize" && command !== "parse" && command !== "evaluate") {
+if (
+	command !== "tokenize" &&
+	command !== "parse" &&
+	command !== "evaluate" &&
+	command !== "run"
+) {
 	console.error(`Usage: Unknown command: ${command}`);
 	process.exit(1);
 }
@@ -30,7 +35,11 @@ if (fileContent.length !== 0) {
 
 	if (command === "tokenize") {
 		tokens.forEach(token => console.log(token.toString()));
-	} else if (command === "parse" || command === "evaluate") {
+	} else if (
+		command === "parse" ||
+		command === "evaluate" ||
+		command === "run"
+	) {
 		const parser = new Parser(tokens);
 		const expr = parser.parse();
 

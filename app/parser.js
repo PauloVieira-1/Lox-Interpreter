@@ -118,20 +118,6 @@ class ParserError {
 	}
 }
 
-class CompilerError {
-	constructor(token, message) {
-		this.token = token;
-		this.message = message;
-	}
-
-	error() {
-		console.error(
-			`[line ${this.token.line}] Error at '${this.token.lexeme}': ${this
-				.message}`
-		);
-	}
-}
-
 class Parser {
 	/**
 	 * 
@@ -242,7 +228,11 @@ class Parser {
 
 		if (this.match("LEFT_PAREN")) {
 			let expr = this.expression();
-			this.consume("RIGHT_PAREN", "Expected ')' after expression.");
+			this.consume(
+				"RIGHT_PAREN",
+				"Expected ')' after expression.",
+				"RuntimeError"
+			);
 			return new Grouping(expr);
 		}
 

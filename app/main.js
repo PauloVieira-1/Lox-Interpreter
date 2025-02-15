@@ -77,6 +77,8 @@ if (fileContent.length !== 0) {
 			}
 		}
 
+		console.log(errors);
+
 		if (errors) {
 			process.exit(65);
 		}

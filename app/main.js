@@ -40,10 +40,12 @@ if (fileContent.length !== 0) {
 		command === "evaluate" ||
 		command === "run"
 	) {
-		if (command === "parse" || command === "run") {
+		if (command === "parse") {
 			try {
 				const parser = new Parser(tokens);
-				parser.parse();
+				const parsed = parser.parseEvaluator();
+				console.log(parsed);
+
 			} catch (error) {
 				errors = true;
 				console.error("Error during parsing: ", error);
@@ -61,6 +63,16 @@ if (fileContent.length !== 0) {
 				console.error("Error during evaluation: ", error);
 			}
 		}
+
+		if (command === "run") {
+			try {
+				if (!errors) {
+					const parser = new Parser(tokens);
+					parser.parse();
+				}
+			} catch (error) {
+				console.error("Error during running: ", error);
+			}
 	}
 
 	if (errors) {

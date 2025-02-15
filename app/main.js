@@ -76,11 +76,11 @@ if (fileContent.length !== 0) {
 				console.error("Error during running: ", error);
 			}
 		}
-
-		if (errors) {
-			process.exit(65);
-		}
 	} else {
 		console.log("EOF  null");
+	}
+
+	if (errors) {
+		process.exit(65);
 	}
 }

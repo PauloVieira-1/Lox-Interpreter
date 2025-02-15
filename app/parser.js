@@ -109,10 +109,10 @@ class ParserError {
 				.message}`
 		);
 		if (this.errorType === "CompilerError") {
-			console.log("CompilerError");
+			// console.log("CompilerError");
 			process.exit(65);
 		} else if (this.errorType === "RuntimeError") {
-			console.log("RuntimeError");
+			// console.log("RuntimeError");
 			process.exit(70);
 		}
 	}
@@ -301,7 +301,7 @@ class Parser {
 			}
 		} catch (error) {
 			console.error("ERRORRRRRR");
-			console.log(error);
+			// console.log(error);
 		}
 
 		return statements;

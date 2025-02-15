@@ -107,7 +107,7 @@ class ParserError {
 			`[line ${this.token.line}] Error at '${this.token.lexeme}': ${this
 				.message}`
 		);
-		process.exit(65);
+		process.exit(70);
 	}
 }
 

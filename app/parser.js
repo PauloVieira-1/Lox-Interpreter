@@ -285,11 +285,7 @@ class Parser {
 
 	expressionStatement() {
 		let expression = this.expression();
-		this.consume(
-			"SEMICOLON",
-			"Expected ';' after expression.",
-			"CompilerError"
-		);
+		this.consume("SEMICOLON", "Expected ';' after expression.", "RuntimeError");
 		return new Expression(expression);
 	}
 

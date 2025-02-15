@@ -97,9 +97,10 @@ class Literal {
 }
 
 class ParserError {
-	constructor(token, message) {
+	constructor(token, message, errorType) {
 		this.token = token;
 		this.message = message;
+		this.errorType = errorType;
 	}
 
 	error() {
@@ -107,7 +108,13 @@ class ParserError {
 			`[line ${this.token.line}] Error at '${this.token.lexeme}': ${this
 				.message}`
 		);
-		process.exit(70);
+		if (this.errorType === "CompilerError") {
+			console.log("CompilerError");
+			process.exit(65);
+		} else if (this.errorType === "RuntimeError") {
+			console.log("RuntimeError");
+			process.exit(70);
+		}
 	}
 }
 
@@ -122,7 +129,6 @@ class CompilerError {
 			`[line ${this.token.line}] Error at '${this.token.lexeme}': ${this
 				.message}`
 		);
-		process.exit(65);
 	}
 }
 
@@ -134,6 +140,7 @@ class Parser {
 	constructor(tokens) {
 		this.tokens = tokens || [];
 		this.current = 0;
+		this.hasError = false;
 	}
 
 	isAtEnd() {
@@ -242,10 +249,11 @@ class Parser {
 		if (this.match("SEMICOLON")) {
 			return null;
 		} else if (this.isAtEnd()) {
+			this.hasError = true;
 			throw new ParserError(
 				this.previous(),
 				"Expected expression.",
-				null
+				"RuntimeError"
 			).error();
 		}
 	}
@@ -254,13 +262,9 @@ class Parser {
 		if (this.check(type)) {
 			// console.log(this.check(type));
 			return this.advance();
-		} else {
-			if (error === 65) {
-				new CompilerError(this.previous(), message).error();
-			} else {
-				new ParserError(this.previous(), message, null).error(); // look into factory deisgn pattern for error handling
-			}
 		}
+		this.hasError = true;
+		new ParserError(this.previous(), message, error).error(); // look into factory deisgn pattern for error handling
 	}
 
 	statement() {
@@ -275,13 +279,17 @@ class Parser {
 	printStatement() {
 		let value = this.expression();
 		// console.log(this.consume("SEMICOLON", "Expected ';' after value."));
-		this.consume("SEMICOLON", "Expected ';' after value.");
+		this.consume("SEMICOLON", "Expected ';' after value.", "CompilerError");
 		return new Print(value).accept(new statementVisitor());
 	}
 
 	expressionStatement() {
 		let expression = this.expression();
-		this.consume("SEMICOLON", "Expected ';' after expression.");
+		this.consume(
+			"SEMICOLON",
+			"Expected ';' after expression.",
+			"CompilerError"
+		);
 		return new Expression(expression);
 	}
 

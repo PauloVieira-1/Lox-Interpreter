@@ -44,7 +44,7 @@ if (fileContent.length !== 0) {
 			try {
 				const parser = new Parser(tokens);
 				const parsed = parser.parseEvaluator();
-				console.log(parsed);
+				if (!errors) console.log(parsed);
 			} catch (error) {
 				errors = true;
 				console.error("Error during parsing: ", error);

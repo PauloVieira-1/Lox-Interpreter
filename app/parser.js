@@ -302,6 +302,16 @@ class Parser {
 
 		return statements;
 	}
+
+	parseEvaluator() {
+		try {
+			// console.log(this);
+			return this.expression();
+		} catch (error) {
+			this.hasError = true;
+			return null;
+		}
+	}
 }
 
 export {

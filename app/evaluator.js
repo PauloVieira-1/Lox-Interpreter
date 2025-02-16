@@ -125,7 +125,7 @@ class Visitor {
 					} else if (isString(leftEval, rightEval)) {
 						checkStringOperand(rightEval);
 						checkStringOperand(leftEval);
-					return leftEval + rightEval; //udnefined 
+					return leftEval + rightEval; 
 				}
 				break;
 		}

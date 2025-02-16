@@ -1,3 +1,5 @@
+import { ErrorFactory } from "./errorHandling.js";
+
 const keywords = new Map([
 	["and", "AND"],
 	["class", "CLASS"],
@@ -160,8 +162,8 @@ class Scanner {
 				} else if (this.isAlpha(c)) {
 					this.identifier();
 				} else {
-					new LoxError(this.line, "Unexpected character.", c).invalidChar();
-					this.hasError = true;
+					const error = new ErrorFactory();
+					error.createLoxError(this.line, `Unexpected character: ${c}`).error();
 				}
 		}
 	}
@@ -197,8 +199,8 @@ class Scanner {
 		}
 
 		if (this.nextChar() !== `"`) {
-			new LoxError(this.line, "Unterminated string.", null).error();
-			this.hasError = true;
+			const error = new ErrorFactory();
+			error.createLoxError(this.line, "Unterminated string.").error();
 		} else {
 			let string = this.source.substring(this.start + 1, this.current + 1);
 			this.addToken("STRING", `"${string}"`, string);

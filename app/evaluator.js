@@ -1,3 +1,5 @@
+import { ErrorFactory } from "./errorHandling.js";
+
 function isFloat(n) {
 	let val = parseFloat(n);
 	return !isNaN(val);
@@ -19,22 +21,23 @@ function isDecimal(n) {
 
 function checkNumberOperands(right, left) {
     if (typeof right !== 'number' || typeof left !== 'number') {
-        new RuntimeError(null, "Operands must be numbers.").error();
-		process.exit(70)
+		const error = new ErrorFactory();
+		error.createRuntimeError(null, "Operands must be numbers.").error();
+    
 	}
 }
 
 function checkNumberOperand(right) {
 	if (typeof right !== 'number') {
-		new RuntimeError(null, "Operand must be a number.").error();
-		process.exit(70)
+		const error = new ErrorFactory();
+		error.createRuntimeError(null, "Operand must be a number.").error();
 	}
 }
 
 function checkStringOperand(s) {
 	if (typeof s !== 'string') {
-		new RuntimeError(null, "Operand must be a two numbers or two strings.").error();
-		process.exit(70)
+		const error = new ErrorFactory();
+		error.createRuntimeError(null, "Operand must be two numbers or two strings.").error();
 	}
 }
 
@@ -47,17 +50,6 @@ function evaluate(val, visitor) {
 		console.error(error)
         return val
     }
-}
-
-class RuntimeError {
-    constructor(line, message) {
-		this.line = line;
-		this.message = message;
-    }
-
-	error() {
-		console.error(`${this.message}`);
-	}
 }
 
 

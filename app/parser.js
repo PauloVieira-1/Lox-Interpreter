@@ -1,5 +1,6 @@
-import { Token, LoxError } from "./scanner.js";
+import { Token } from "./scanner.js";
 import { Print, Expression, statementVisitor } from "./statement.js";
+import { ErrorFactory } from "./errorHandling.js";
 
 //? The visitor design pattern -----> https://refactoring.guru/design-patterns/visitor
 
@@ -93,28 +94,6 @@ class Literal {
 
 	accept(visitor) {
 		return visitor.visitLiteralExpression(this);
-	}
-}
-
-class ParserError {
-	constructor(token, message, errorType) {
-		this.token = token;
-		this.message = message;
-		this.errorType = errorType;
-	}
-
-	error() {
-		console.error(
-			`[line ${this.token.line}] Error at '${this.token.lexeme}': ${this
-				.message}`
-		);
-		if (this.errorType === "CompilerError") {
-			// console.log("CompilerError");
-			process.exit(65);
-		} else if (this.errorType === "RuntimeError") {
-			// console.log("RuntimeError");
-			process.exit(70);
-		}
 	}
 }
 
@@ -240,21 +219,26 @@ class Parser {
 			return null;
 		} else if (this.isAtEnd()) {
 			this.hasError = true;
-			throw new ParserError(
-				this.previous(),
-				"Expected expression.",
-				"RuntimeError"
-			).error();
+			const error = new ErrorFactory();
+			error.createParserError(this.previous(), "Expected expression.").error();
 		}
 	}
 
-	consume(type, message, error) {
+	consume(type, message, errorType) {
 		if (this.check(type)) {
 			// console.log(this.check(type));
 			return this.advance();
 		}
 		this.hasError = true;
-		new ParserError(this.previous(), message, error).error(); // look into factory deisgn pattern for error handling
+		const error = new ErrorFactory();
+
+		if (errorType === "CompilerError") {
+			error.createParserError(this.previous(), message).error();
+		}
+
+		if (errorType === "RuntimeError") {
+			error.createRuntimeError(this.previous(), message).error();
+		}
 	}
 
 	statement() {

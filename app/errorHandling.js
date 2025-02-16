@@ -24,11 +24,11 @@ class LoxError {
 	}
 }
 
+// compiler error ??
 class ParserError {
-	constructor(token, message, errorType) {
+	constructor(token, message) {
 		this.token = token;
 		this.message = message;
-		this.errorType = errorType;
 	}
 
 	error() {
@@ -36,11 +36,7 @@ class ParserError {
 			`[line ${this.token.line}] Error at '${this.token.lexeme}': ${this
 				.message}`
 		);
-		if (this.errorType === "CompilerError") {
-			process.exit(65);
-		} else if (this.errorType === "RuntimeError") {
-			process.exit(70);
-		}
+		process.exit(65);
 	}
 }
 
@@ -51,8 +47,15 @@ class RuntimeError {
 	}
 
 	error() {
-		console.error(`${this.message}`);
-		process.exit(70);
+		if (this.line === null) {
+			console.error(`${this.message}`);
+			process.exit(70);
+		}
+
+		if (this.line !== null) {
+			console.error(`[line ${this.line}] ${this.message}`);
+			process.exit(70);
+		}
 	}
 }
 

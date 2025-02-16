@@ -2,7 +2,6 @@ import fs from "fs";
 import { Scanner } from "./scanner.js";
 import { Parser, Visitor } from "./parser.js";
 import { Interpreter } from "./evaluator.js";
-import { ErrorFactory } from "./errorHandling.js";
 
 const args = process.argv.slice(2);
 

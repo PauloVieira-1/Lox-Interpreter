@@ -6,68 +6,65 @@ function isFloat(n) {
 }
 
 function isString(r, l) {
-	return typeof r === 'string' || typeof l === 'string';
+	return typeof r === "string" || typeof l === "string";
 }
 
 function isTruthy(t) {
-	if (t == null) return false; 
+	if (t == null) return false;
 	if (t === false) return t;
 	return true;
 }
 
 function isDecimal(n) {
-    return !isNaN(n) && n.includes('.');
+	return !isNaN(n) && n.includes(".");
 }
 
 function checkNumberOperands(right, left) {
-    if (typeof right !== 'number' || typeof left !== 'number') {
+	if (typeof right !== "number" || typeof left !== "number") {
 		const error = new ErrorFactory();
 		error.createRuntimeError(null, "Operands must be numbers.").error();
-    
 	}
 }
 
 function checkNumberOperand(right) {
-	if (typeof right !== 'number') {
+	if (typeof right !== "number") {
 		const error = new ErrorFactory();
 		error.createRuntimeError(null, "Operand must be a number.").error();
 	}
 }
 
 function checkStringOperand(s) {
-	if (typeof s !== 'string') {
+	if (typeof s !== "string") {
 		const error = new ErrorFactory();
-		error.createRuntimeError(null, "Operand must be two numbers or two strings.").error();
+		error
+			.createRuntimeError(null, "Operand must be two numbers or two strings.")
+			.error();
 	}
 }
 
 function evaluate(val, visitor) {
-
-    try {
-        const result = val.accept(visitor);
-        return result
-    } catch (error) {
-		console.error(error)
-        return val
-    }
+	try {
+		const result = val.accept(visitor);
+		return result;
+	} catch (error) {
+		console.error(error);
+		return val;
+	}
 }
-
 
 class Visitor {
 	visitLiteralExpression(literal) {
-
 		if (literal.value === null) return "nil";
-		
-		if (isFloat(literal.value)){
+
+		if (isFloat(literal.value)) {
 			try {
-				if (isDecimal(literal.value)){
+				if (isDecimal(literal.value)) {
 					return Number(literal.value);
+				}
+			} catch (error) {
+				return literal.value;
 			}
-		} catch (error) {
-			return literal.value;
 		}
-		
-	}
 		return literal.value;
 	}
 
@@ -78,62 +75,60 @@ class Visitor {
 		switch (operator) {
 			case "-":
 				checkNumberOperand(right);
-				return -Number(right)
-			case "!" :
-				return !(isTruthy(unary.right.value));
+				return -Number(right);
+			case "!":
+				return !isTruthy(unary.right.value);
 		}
 	}
 
 	visitBinaryExpression(binary) {
-
 		const left = Number(evaluate(binary.left, this));
 		const leftEval = evaluate(binary.left, this);
 		const right = Number(evaluate(binary.right, this));
 		const rightEval = evaluate(binary.right, this);
 		const operator = binary.operator.lexeme;
 
-
 		switch (operator) {
 			case "-":
-                checkNumberOperands(rightEval, leftEval);
+				checkNumberOperands(rightEval, leftEval);
 				return left - right;
 			case "*":
-                checkNumberOperands(rightEval, leftEval);
+				checkNumberOperands(rightEval, leftEval);
 				return left * right;
-				case "/":
-                checkNumberOperands(rightEval, leftEval);
+			case "/":
+				checkNumberOperands(rightEval, leftEval);
 				return left / right;
 			case "<":
-                checkNumberOperands(rightEval, leftEval);
+				checkNumberOperands(rightEval, leftEval);
 				return left < right;
 			case ">":
-                checkNumberOperands(rightEval, leftEval);
+				checkNumberOperands(rightEval, leftEval);
 				return left > right;
 			case ">=":
-                checkNumberOperands(rightEval, leftEval);
+				checkNumberOperands(rightEval, leftEval);
 				return left >= right;
 			case "<=":
-                checkNumberOperands(rightEval, leftEval);
+				checkNumberOperands(rightEval, leftEval);
 				return left <= right;
 			case "!=":
 				return left !== right;
 			case "==":
-				return leftEval === rightEval ;
+				return leftEval === rightEval;
 			case "+":
-					if (isFloat(leftEval) && isFloat(rightEval)) {
-						return left + right;
-					} else if (isString(leftEval, rightEval)) {
-						checkStringOperand(rightEval);
-						checkStringOperand(leftEval);
-					return leftEval + rightEval; 
+				if (isFloat(leftEval) && isFloat(rightEval)) {
+					return left + right;
+				} else if (isString(leftEval, rightEval)) {
+					checkStringOperand(rightEval);
+					checkStringOperand(leftEval);
+					return leftEval + rightEval;
 				}
 				break;
 		}
 	}
 
-    visitGroupingExpression(grouping) {
-        return grouping.expression.accept(this);
-    }
+	visitGroupingExpression(grouping) {
+		return grouping.expression.accept(this);
+	}
 }
 
 class Interpreter {
@@ -141,15 +136,18 @@ class Interpreter {
 		this.expression = expression;
 		this.hasError = false;
 	}
-	
+
 	evaluate(expression) {
 		return expression.accept(new Visitor());
 	}
 
 	interpret() {
-		return this.expression?.accept(new Visitor());
+		try {
+			return this.expression.accept(new Visitor());
+		} catch (error) {
+			this.hasError = true;
+		}
 	}
 }
 
-export { Interpreter
- };
+export { Interpreter };

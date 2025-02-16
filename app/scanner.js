@@ -32,24 +32,6 @@ class Token {
 	}
 }
 
-class LoxError {
-	constructor(line, message, char) {
-		this.line = line;
-		this.message = message;
-		this.char = char;
-	}
-
-	error() {
-		console.error(`[line ${this.line}] Error: ${this.message}`);
-	}
-
-	invalidChar() {
-		console.error(
-			`[line ${this.line}] Error: Unexpected character: ${this.char}`
-		);
-	}
-}
-
 class Scanner {
 	constructor(source) {
 		this.source = source;
@@ -191,7 +173,7 @@ class Scanner {
 	}
 
 	string() {
-		while (this.nextChar() != `"` && this.nextChar() != "\n") {
+		while (this.nextChar() != `"`) {
 			if (this.isAtEnd()) {
 				break;
 			}
@@ -264,4 +246,4 @@ class Scanner {
 	}
 }
 
-export { Scanner, Token, LoxError, keywords };
+export { Scanner, Token, keywords };

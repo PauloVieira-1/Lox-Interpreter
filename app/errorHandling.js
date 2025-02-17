@@ -24,7 +24,7 @@ class LoxError {
 	 */
 	error() {
 		console.error(`[line ${this.line}] Error: ${this.message}`);
-		process.exit(65);
+		// process.exit(65);
 	}
 }
 

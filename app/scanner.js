@@ -147,6 +147,7 @@ class Scanner {
 				} else {
 					const error = new ErrorFactory();
 					error.createLoxError(this.line, `Unexpected character: ${c}`).error();
+					this.hasError = true; // TEMPORARY for sake of tests to pass
 				}
 		}
 	}
@@ -183,6 +184,7 @@ class Scanner {
 		if (this.isAtEnd()) {
 			const error = new ErrorFactory();
 			error.createLoxError(this.line, "Unterminated string.").error();
+			this.hasError = true; // TEMPORARY for sake of tests to pass
 			return;
 		}
 

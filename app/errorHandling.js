@@ -18,10 +18,6 @@ class LoxError {
 		this.message = message;
 	}
 
-	/**
-	 * Print the error message and exit with code 65
-	 * @returns {undefined}
-	 */
 	error() {
 		console.error(`[line ${this.line}] Error: ${this.message}`);
 		// process.exit(65);

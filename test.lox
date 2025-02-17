@@ -1,1 +1,3 @@
-"quz" != "bar"
+print "the expression below is invalid";
+49 + "baz";
+print "this should not be printed";

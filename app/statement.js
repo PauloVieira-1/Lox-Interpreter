@@ -5,6 +5,10 @@ class statementVisitor extends Interpreter {
 		let evaluated = this.evaluate(statement.expression);
 		console.log(evaluated.toString());
 	}
+
+	visitExpression(expression) {
+		return this.evaluate(expression.expression);
+	}
 }
 
 class Print {
@@ -17,6 +21,9 @@ class Print {
 }
 
 class Expression {
+	constructor(expression) {
+		this.expression = expression;
+	}
 	accept(visitor) {
 		return visitor.visitExpression(this);
 	}

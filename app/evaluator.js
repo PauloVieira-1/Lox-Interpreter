@@ -87,7 +87,7 @@ class Visitor {
 		const right = Number(evaluate(binary.right, this));
 		const rightEval = evaluate(binary.right, this);
 		const operator = binary.operator.lexeme;
-
+		
 		switch (operator) {
 			case "-":
 				checkNumberOperands(rightEval, leftEval);

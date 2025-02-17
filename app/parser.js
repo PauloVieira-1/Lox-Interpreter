@@ -260,7 +260,7 @@ class Parser {
 	expressionStatement() {
 		let expression = this.expression();
 		this.consume("SEMICOLON", "Expected ';' after expression.", "RuntimeError");
-		return new Expression(expression);
+		return new Expression(expression).accept(new statementVisitor());
 	}
 
 	parse() {
@@ -270,7 +270,7 @@ class Parser {
 				statements.push(this.statement());
 			}
 		} catch (error) {
-			console.error("ERRORRRRRR");
+			console.error(error);
 		}
 
 		return statements;

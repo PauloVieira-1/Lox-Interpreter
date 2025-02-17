@@ -57,6 +57,7 @@ class Scanner {
 
 	scanToken() {
 		let c = this.advance();
+		// console.log(c);
 		switch (c) {
 			case "(":
 				this.addToken("LEFT_PAREN", c);
@@ -174,23 +175,21 @@ class Scanner {
 	}
 
 	string() {
-		while (this.nextChar() != `"`) {
-			if (this.isAtEnd()) {
-				break;
-			}
+		while (!this.isAtEnd() && this.source[this.current] !== `"`) {
+			if (this.source[this.current] === "\n") this.line++;
 			this.advance();
 		}
 
-		if (this.nextChar() !== `"`) {
+		if (this.isAtEnd()) {
 			const error = new ErrorFactory();
 			error.createLoxError(this.line, "Unterminated string.").error();
-		} else {
-			let string = this.source.substring(this.start + 1, this.current + 1);
-			this.addToken("STRING", `"${string}"`, string);
+			return;
 		}
 
 		this.advance();
-		this.advance();
+
+		const value = this.source.substring(this.start + 1, this.current - 1);
+		this.addToken("STRING", `"${value}"`, value);
 	}
 
 	isDigit(c) {
@@ -244,6 +243,10 @@ class Scanner {
 
 	isAlphaNumeric(c) {
 		return this.isAlpha(c) || this.isDigit(c);
+	}
+
+	isEmptyString() {
+		return this.source[this.current] == "";
 	}
 }
 

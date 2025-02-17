@@ -57,10 +57,9 @@ if (fileContent.length !== 0) {
 			try {
 				if (!errors) {
 					const parser = new Parser(tokens);
-					const expr = parser.parse();
-					// console.log(parser);
+					const expr = parser.parseEvaluator();
 					const interpret = new Interpreter(expr).interpret();
-					// console.log(interpret);
+					console.log(interpret);
 				}
 			} catch (error) {
 				console.error("Error during evaluation: ", error);

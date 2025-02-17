@@ -44,7 +44,7 @@ function checkStringOperand(s) {
 
 function evaluate(val, visitor) {
 	try {
-		const result = val.accept(visitor);
+		const result = val?.accept(visitor);
 		return result;
 	} catch (error) {
 		console.error(error);

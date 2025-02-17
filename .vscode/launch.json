@@ -20,7 +20,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "args": ["parse","${workspaceFolder}/test.lox"],
+            "args": ["tokenize","${workspaceFolder}/test.lox"],
             "program": "${workspaceFolder}/app/main.js"
         }
     ]

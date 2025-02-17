@@ -169,6 +169,7 @@ class Scanner {
 	}
 
 	nextChar() {
+		if (this.isAtEnd()) return null;
 		return this.source[this.current + 1];
 	}
 

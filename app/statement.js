@@ -9,6 +9,12 @@ class statementVisitor extends Interpreter {
 	visitExpression(expression) {
 		return this.evaluate(expression.expression);
 	}
+
+	visitVariable(variable) {
+		let evaluated = this.evaluate(variable.variable);
+		this.environment.setVariable(variable.name, evaluated);
+		console.log(variable.name.lexeme, evaluated); ///TESTING REMOVE LATER
+	}
 }
 
 class Print {
@@ -29,4 +35,15 @@ class Expression {
 	}
 }
 
-export { statementVisitor, Print, Expression };
+class Variable {
+	constructor(name, variable) {
+		this.name = name;
+		this.variable = variable;
+	}
+
+	accept(visitor) {
+		return visitor.visitVariable(this);
+	}
+}
+
+export { statementVisitor, Print, Expression, Variable };

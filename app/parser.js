@@ -1,5 +1,5 @@
 import { Token } from "./scanner.js";
-import { Print, Expression, statementVisitor } from "./statement.js";
+import { Print, Expression, statementVisitor, Variable } from "./statement.js";
 import { ErrorFactory } from "./errorHandling.js";
 
 //? The visitor design pattern -----> https://refactoring.guru/design-patterns/visitor
@@ -137,11 +137,6 @@ class Parser {
 		return false;
 	}
 
-	check(sign) {
-		if (this.isAtEnd()) return false;
-		return this.next().type === sign;
-	}
-
 	expression() {
 		return this.equality();
 	}
@@ -241,6 +236,39 @@ class Parser {
 		}
 	}
 
+	check(sign) {
+		if (this.isAtEnd()) return false;
+		return this.next().type === sign;
+	}
+
+	decleration() {
+		try {
+			if (this.match("VAR")) {
+				return this.variableDecleration();
+			}
+
+			return this.statement();
+		} catch (e) {
+			const error = new ErrorFactory();
+			error.createParserError(this.previous(), "TEST").error();
+		}
+	}
+
+	variableDecleration() {
+		let variableName = this.consume("IDENTIFIER", "Expected Variable Name");
+		let initializer = "";
+
+		if (this.match("EQUAL")) {
+			initializer = this.expression();
+			// console.log(variableName, initializer);
+		}
+
+		this.consume("SEMICOLON", "Expected ';' after variable decleration.");
+		return new Variable(variableName, initializer).accept(
+			new statementVisitor()
+		);
+	}
+
 	statement() {
 		// First check if should print or evaluate the expression
 		if (this.match("PRINT")) {
@@ -267,7 +295,7 @@ class Parser {
 		let statements = [];
 		try {
 			while (!this.isAtEnd() && !this.match("EOF")) {
-				statements.push(this.statement());
+				statements.push(this.decleration());
 			}
 		} catch (error) {
 			console.error(error);

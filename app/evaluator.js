@@ -1,4 +1,5 @@
 import { ErrorFactory } from "./errorHandling.js";
+import { Environment } from "./Environment.js";
 
 function isFloat(n) {
 	let val = parseFloat(n);
@@ -135,6 +136,7 @@ class Interpreter {
 	constructor(expression) {
 		this.expression = expression;
 		this.hasError = false;
+		this.environment = new Environment();
 	}
 
 	evaluate(expression) {

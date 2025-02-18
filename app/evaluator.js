@@ -140,6 +140,7 @@ class Interpreter {
 	}
 
 	evaluate(expression) {
+		// console.log(expression)
 		return expression.accept(new Visitor());
 	}
 

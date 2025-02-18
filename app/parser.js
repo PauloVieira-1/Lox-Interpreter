@@ -34,6 +34,10 @@ class Visitor {
 		if (literal.value === null) return "nil";
 		return literal.value;
 	}
+
+	visitVariableExpression(variable) {
+		return this.environment.get(variable.name, evaluated);
+	}
 }
 
 class Parenthesizer {
@@ -210,6 +214,10 @@ class Parser {
 			return new Grouping(expr);
 		}
 
+		// if (this.match("IDENTIFIER")){
+		// 	return new Variable(this.previous())
+		// }
+
 		if (this.match("SEMICOLON")) {
 			return null;
 		} else if (this.isAtEnd()) {
@@ -221,9 +229,9 @@ class Parser {
 
 	consume(type, message, errorType) {
 		if (this.check(type)) {
-			// console.log(this.check(type));
 			return this.advance();
 		}
+
 		this.hasError = true;
 		const error = new ErrorFactory();
 
@@ -255,7 +263,12 @@ class Parser {
 	}
 
 	variableDecleration() {
-		let variableName = this.consume("IDENTIFIER", "Expected Variable Name");
+		let variableName = this.consume(
+			"IDENTIFIER",
+			"Expected Variable Name",
+			"RuntimeError"
+		);
+
 		let initializer = "";
 
 		if (this.match("EQUAL")) {
@@ -263,7 +276,12 @@ class Parser {
 			// console.log(variableName, initializer);
 		}
 
-		this.consume("SEMICOLON", "Expected ';' after variable decleration.");
+		this.consume(
+			"SEMICOLON",
+			"Expected ';' after variable decleration.",
+			"RuntimeError"
+		);
+
 		return new Variable(variableName, initializer).accept(
 			new statementVisitor()
 		);
@@ -272,6 +290,8 @@ class Parser {
 	statement() {
 		// First check if should print or evaluate the expression
 		if (this.match("PRINT")) {
+			console.log("TEEETET");
+
 			return this.printStatement();
 		}
 

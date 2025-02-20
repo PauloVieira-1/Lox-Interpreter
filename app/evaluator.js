@@ -1,6 +1,7 @@
 import { ErrorFactory } from "./errorHandling.js";
 import { Environment } from "./Environment.js";
 
+
 function isFloat(n) {
 	let val = parseFloat(n);
 	return !isNaN(val);
@@ -53,7 +54,29 @@ function evaluate(val, visitor) {
 	}
 }
 
-class Visitor {
+class Interpreter {
+	constructor(expression) {
+		this.expression = expression;
+		this.hasError = false;
+		this.environment = new Environment();
+	}
+
+	evaluate(expression) {
+		// console.log(expression)
+		return expression.accept(new Visitor());
+	}
+
+	interpret() {
+		try {
+			return this.expression.accept(new Visitor());
+		} catch (error) {
+			this.hasError = true;
+		}
+	}
+}
+
+
+class Visitor extends Interpreter {
 	visitLiteralExpression(literal) {
 		if (literal.value === null) return "nil";
 
@@ -130,27 +153,17 @@ class Visitor {
 	visitGroupingExpression(grouping) {
 		return grouping.expression.accept(this);
 	}
-}
 
-class Interpreter {
-	constructor(expression) {
-		this.expression = expression;
-		this.hasError = false;
-		this.environment = new Environment();
-	}
-
-	evaluate(expression) {
-		// console.log(expression)
-		return expression.accept(new Visitor());
-	}
-
-	interpret() {
-		try {
-			return this.expression.accept(new Visitor());
-		} catch (error) {
-			this.hasError = true;
+	visitVariableExpression(variable) {
+		console.log(this.environment);
+		const value = this.environment.getVariable(variable.name); //TEMP 
+		if (value === undefined) {
+			const error = new ErrorFactory();
+			error.createRuntimeError(null, "Variable not found.").error();
 		}
+		return value;
 	}
 }
+
 
 export { Interpreter };

@@ -1,2 +1,2 @@
 var apple = 10 + 9;
-print a;
+print apple;

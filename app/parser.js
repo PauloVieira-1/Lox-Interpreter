@@ -36,7 +36,8 @@ class Visitor {
 	}
 
 	visitVariableExpression(variable) {
-		return this.environment.get(variable.name, evaluated);
+		// return this.environment.get(variable.name, evaluated);
+		console.log("TEST");
 	}
 }
 
@@ -101,6 +102,15 @@ class Literal {
 	}
 }
 
+class Var {
+	constructor(name) {
+		this.name = name;
+	}
+
+	accept(visitor) {
+		return visitor.visitVariableExpression(this);
+	}
+}
 class Parser {
 	/**
 	 * 
@@ -214,9 +224,9 @@ class Parser {
 			return new Grouping(expr);
 		}
 
-		// if (this.match("IDENTIFIER")){
-		// 	return new Variable(this.previous())
-		// }
+		if (this.match("IDENTIFIER")) {
+			return new Var(this.previous());
+		}
 
 		if (this.match("SEMICOLON")) {
 			return null;
@@ -257,6 +267,7 @@ class Parser {
 
 			return this.statement();
 		} catch (e) {
+			console.log(e);
 			const error = new ErrorFactory();
 			error.createParserError(this.previous(), "TEST").error();
 		}
@@ -290,11 +301,8 @@ class Parser {
 	statement() {
 		// First check if should print or evaluate the expression
 		if (this.match("PRINT")) {
-			console.log("TEEETET");
-
 			return this.printStatement();
 		}
-
 		return this.expressionStatement();
 	}
 

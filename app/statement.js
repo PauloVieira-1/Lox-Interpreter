@@ -13,6 +13,7 @@ class statementVisitor extends Interpreter {
 	visitVariable(variable) {
 		let evaluated = this.evaluate(variable.variable);
 		this.environment.setVariable(variable.name, evaluated);
+		console.log(this.environment.bindings);
 	}
 }
 
